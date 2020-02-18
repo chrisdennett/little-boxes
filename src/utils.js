@@ -27,17 +27,33 @@ export const getRandomFrontFaceData = ({
 
   for (let tileRow = 0; tileRow < tilesPerHeight; tileRow++) {
     for (let tileCol = 0; tileCol < tilesPerWidth; tileCol++) {
+      const nullIndex = -1;
+
+      const isFirstRow = tileRow === 0;
+      const isFirstCol = tileCol === 0;
+      const isLastRow = tileRow === tilesPerWidth - 1;
+      const isLastCol = tileCol === tilesPerHeight - 1;
+
       const index = tileCol + tileRow * tilesPerWidth;
+      const indexAbove = isFirstRow ? nullIndex : index - tilesPerWidth;
+      const indexBelow = isLastRow ? nullIndex : index + tilesPerWidth;
+      const indexToLeft = isFirstCol ? nullIndex : index - 1;
+      const indexToRight = isLastCol ? nullIndex : index + 1;
+
       const addTile = Math.random() < 0.5;
 
       let tileData = {
         row: tileRow,
         col: tileCol,
-        isFirstRow: tileRow === 0,
-        isFirstCol: tileCol === 0,
-        isLastRow: tileRow === tilesPerWidth - 1,
-        isLastCol: tileCol === tilesPerHeight - 1,
+        isFirstRow,
+        isFirstCol,
+        isFirstCol,
+        isLastCol,
         index,
+        indexAbove,
+        indexBelow,
+        indexToLeft,
+        indexToRight,
         x: tileCol * tileSize,
         y: tileRow * tileSize,
         size: tileSize
@@ -64,28 +80,17 @@ export const addFrontFaceOutlineData = ({ tileDataArray, tilesPerWidth }) => {
   const nullIndex = -1;
 
   for (let tileData of tileDataArray) {
-    const {
-      key,
-      row,
-      col,
-      index,
-      isFirstRow,
-      isFirstCol,
-      isLastRow,
-      isLastCol
-    } = tileData;
+    const { key, indexAbove, indexBelow, indexToLeft, indexToRight } = tileData;
 
     if (key === "t1") {
-      const iAbove = isFirstRow ? nullIndex : index - tilesPerWidth;
-      const iBelow = isLastRow ? nullIndex : index + tilesPerWidth;
-      const iToLeft = isFirstCol ? nullIndex : index - 1;
-      const iToRight = isLastCol ? nullIndex : index + 1;
-
-      const tileAbove = iAbove !== nullIndex ? tileDataArray[iAbove] : null;
-      const tileBelow = iBelow !== nullIndex ? tileDataArray[iBelow] : null;
-      const tileToLeft = iToLeft !== nullIndex ? tileDataArray[iToLeft] : null;
+      const tileAbove =
+        indexAbove !== nullIndex ? tileDataArray[indexAbove] : null;
+      const tileBelow =
+        indexBelow !== nullIndex ? tileDataArray[indexBelow] : null;
+      const tileToLeft =
+        indexToLeft !== nullIndex ? tileDataArray[indexToLeft] : null;
       const tileToRight =
-        iToRight !== nullIndex ? tileDataArray[iToRight] : null;
+        indexToRight !== nullIndex ? tileDataArray[indexToRight] : null;
 
       const addTopLine = !tileAbove || tileAbove.key !== "t1";
       const addBottomLine = !tileBelow || tileBelow.key !== "t1";
