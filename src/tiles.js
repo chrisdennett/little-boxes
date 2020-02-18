@@ -159,7 +159,8 @@ export const getTileThree = ({
   y,
   lineColour = "#000",
   totalStripes,
-  stripeSpacing
+  stripeSpacing,
+  options = { top: false, right: false, bottom: false, left: false }
 }) => {
   const stripes = [];
   for (let s = 1; s <= totalStripes; s++) {
@@ -185,6 +186,19 @@ export const getTileThree = ({
         points={`${0},${size} ${size},${0} ${size},${size}`}
         fill={"#000"}
       />
+
+      {options.top && (
+        <line x1={0} y1={0} x2={size} y2={0} stroke={lineColour} />
+      )}
+      {options.bottom && (
+        <line x1={0} y1={size} x2={size} y2={size} stroke={lineColour} />
+      )}
+      {options.left && (
+        <line x1={0} y1={0} x2={0} y2={size} stroke={lineColour} />
+      )}
+      {options.right && (
+        <line x1={size} y1={0} x2={size} y2={size} stroke={lineColour} />
+      )}
     </g>
   );
 };

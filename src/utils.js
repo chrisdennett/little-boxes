@@ -11,7 +11,7 @@ import {
 } from "./tiles";
 
 // const allKeys = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"];
-const allKeys = ["t1", "t5", "t8"];
+const allKeys = ["t1", "t3", "t5", "t8"];
 
 export const getRandomAllowedTileData = ({
   x,
@@ -70,6 +70,11 @@ const getTileOptions = ({ key, tileToLeft, tileAbove }) => {
   if (key === "t1") {
     showTopLineWhen({ options, key: "t1", tileAbove, matches: ["t5", "t8"] });
     showLeftLineWhen({ options, key: "t1", tileToLeft, matches: ["t5", "t8"] });
+  }
+
+  if (key === "t3") {
+    showTopLineWhen({ options, key: "t3", tileAbove, matches: ["t1"] });
+    // showLeftLineWhen({ options, key: "t1", tileToLeft, matches: ["t5", "t8"] });
   }
 
   if (key === "t5") {
@@ -175,7 +180,7 @@ export const GenerateTileData = ({
 const tileTypes = {
   t1: {
     allowedOnRight: ["t1", "t8"],
-    allowedBelow: ["t1", "t5", "t8"],
+    allowedBelow: ["t1", "t3", "t5", "t8"],
     func: getTileOne
   },
   t2: {
@@ -184,8 +189,8 @@ const tileTypes = {
     func: getTileTwo
   },
   t3: {
-    allowedOnRight: [1, 8],
-    allowedBelow: [4, 6, 7],
+    allowedOnRight: ["t8"],
+    allowedBelow: ["t8"],
     func: getTileThree
   },
   t4: {
@@ -194,7 +199,7 @@ const tileTypes = {
     func: getTileFour
   },
   t5: {
-    allowedOnRight: ["t1", "t5"],
+    allowedOnRight: ["t1", "t3", "t5"],
     allowedBelow: ["t1", "t5"],
     func: getTileFive
   },
@@ -209,7 +214,7 @@ const tileTypes = {
     func: getTileSeven
   },
   t8: {
-    allowedOnRight: ["t1", "t5"],
+    allowedOnRight: ["t1", "t3", "t5"],
     allowedBelow: ["t1"],
     func: getTileEight
   },
