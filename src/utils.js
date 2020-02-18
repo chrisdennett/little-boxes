@@ -13,6 +13,97 @@ import {
 // const allKeys = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"];
 const allKeys = ["t1", "t3", "t5", "t8"];
 
+//
+// STEP 1: generate front faces (white) squares
+//
+export const getRandomFrontFaceData = ({
+  width,
+  height,
+  tilesPerWidth,
+  tileSize
+}) => {
+  const tilesPerHeight = Math.floor(height / tileSize);
+  const tileDataArray = [];
+
+  for (let tileRow = 0; tileRow < tilesPerHeight; tileRow++) {
+    for (let tileCol = 0; tileCol < tilesPerWidth; tileCol++) {
+      const index = tileCol + tileRow * tilesPerWidth;
+      const addTile = Math.random() < 0.5;
+
+      let tileData = {
+        row: tileRow,
+        col: tileCol,
+        isFirstRow: tileRow === 0,
+        isFirstCol: tileCol === 0,
+        isLastRow: tileRow === tilesPerWidth - 1,
+        isLastCol: tileCol === tilesPerHeight - 1,
+        index,
+        x: tileCol * tileSize,
+        y: tileRow * tileSize,
+        size: tileSize
+      };
+
+      if (addTile) {
+        tileData.key = "t1";
+        tileData.func = tileTypes.t1.func;
+      } else {
+        tileData.key = "t9";
+        tileData.func = tileTypes.t9.func;
+      }
+      tileDataArray.push(tileData);
+    }
+  }
+
+  return tileDataArray;
+};
+
+//
+// STEP 2: add outlines to front faces (white) squares
+//
+export const addFrontFaceOutlineData = ({ tileDataArray, tilesPerWidth }) => {
+  const nullIndex = -1;
+
+  for (let tileData of tileDataArray) {
+    const {
+      key,
+      row,
+      col,
+      index,
+      isFirstRow,
+      isFirstCol,
+      isLastRow,
+      isLastCol
+    } = tileData;
+
+    if (key === "t1") {
+      const iAbove = isFirstRow ? nullIndex : index - tilesPerWidth;
+      const iBelow = isLastRow ? nullIndex : index + tilesPerWidth;
+      const iToLeft = isFirstCol ? nullIndex : index - 1;
+      const iToRight = isLastCol ? nullIndex : index + 1;
+
+      const tileAbove = iAbove !== nullIndex ? tileDataArray[iAbove] : null;
+      const tileBelow = iBelow !== nullIndex ? tileDataArray[iBelow] : null;
+      const tileToLeft = iToLeft !== nullIndex ? tileDataArray[iToLeft] : null;
+      const tileToRight =
+        iToRight !== nullIndex ? tileDataArray[iToRight] : null;
+
+      const addTopLine = !tileAbove || tileAbove.key !== "t1";
+      const addBottomLine = !tileBelow || tileBelow.key !== "t1";
+      const addLeftLine = !tileToLeft || tileToLeft.key !== "t1";
+      const addRightLine = !tileToRight || tileToRight.key !== "t1";
+
+      tileData.options = {
+        top: addTopLine,
+        right: addRightLine,
+        bottom: addBottomLine,
+        left: addLeftLine
+      };
+    }
+  }
+
+  return tileDataArray;
+};
+
 export const getRandomAllowedTileData = ({
   x,
   y,
@@ -106,6 +197,55 @@ const getRandomKey = array => {
 };
 
 export const GetTiles = ({ width, height, tilesPerWidth }) => {
+  const tileSize = width / tilesPerWidth;
+  const tileData1 = getRandomFrontFaceData({
+    width,
+    height,
+    tileSize,
+    tilesPerWidth
+  });
+
+  const tileData = addFrontFaceOutlineData({
+    tilesPerWidth,
+    tileDataArray: tileData1
+  });
+
+  const tiles = [];
+  const stripeSpacing = tileSize / 10;
+  const totalStripes = 10;
+
+  for (let titleInfo of tileData) {
+    if (titleInfo) {
+      tiles.push(
+        titleInfo.func({
+          size: titleInfo.size,
+          x: titleInfo.x,
+          y: titleInfo.y,
+          lineColour: "#000",
+          fill: "#ff00ff",
+          totalStripes,
+          stripeSpacing,
+          options: titleInfo.options
+        })
+      );
+    } else {
+      tiles.push(
+        tileTypes.t9.func({
+          size: tileSize,
+          x: titleInfo.x,
+          y: titleInfo.y,
+          lineColour: "#000",
+          totalStripes,
+          stripeSpacing
+        })
+      );
+    }
+  }
+
+  return tiles;
+};
+
+export const GetTilesOLD = ({ width, height, tilesPerWidth }) => {
   const tileSize = width / tilesPerWidth;
   const tileData = GenerateTileData({ width, height, tileSize, tilesPerWidth });
 

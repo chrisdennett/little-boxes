@@ -290,7 +290,7 @@ export const getErrorTile = ({ size, x, y, lineColour = "#000" }) => {
       width={size}
       height={size}
       stroke={"none"}
-      fill={"#FF0000"}
+      fill={"none"}
     />
   );
 };
