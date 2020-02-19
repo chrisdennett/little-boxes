@@ -5,7 +5,7 @@ import { GetTiles } from "./utils";
 
 const width = 900;
 const height = 900;
-const tilesPerWidth = 15;
+const tilesPerWidth = 30;
 
 export default function App() {
   const tiles = GetTiles({ width, height, tilesPerWidth });
