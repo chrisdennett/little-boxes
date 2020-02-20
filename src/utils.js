@@ -171,53 +171,10 @@ export const addTileFirstPass = tileDataArray => {
         tileData.key = "t2";
         tileData.func = tileTypes.t2.func;
       }
-    }
-  }
 
-  return tileDataArray;
-};
-
-//
-// STEP 4: add tile 3s
-//
-export const addTileSecondPass = tileDataArray => {
-  for (let tileData of tileDataArray) {
-    const {
-      key,
-      tileAbove,
-      tileBelow,
-      tileBelowLeft,
-      tileBelowRight,
-      tileToLeft,
-      tileToRight,
-      isFirstCol
-    } = tileData;
-
-    const isCurrentlyBg = key === "t7";
-
-    const tileToLeftIs8 = tileToLeft && tileToLeft.key === "t8";
-    const tileBelowIs8 = tileBelow && tileBelow.key === "t8";
-    const tileAboveIsWhite = tileAbove && tileAbove.key === "t1";
-    const tileBelowIsWhite = tileBelow && tileBelow.key === "t1";
-    const tileBelowLeftIsWhite = tileBelowLeft && tileBelowLeft.key === "t1";
-    const tiletoLeftIsWhite = tileToLeft && tileToLeft.key === "t1";
-    const tileToLeftIsBg = tileToLeft && tileToLeft.key === "t7";
-
-    if (isCurrentlyBg) {
-      if (tileToLeftIs8 && tileBelowIs8) {
-        tileData.key = "t3";
-        tileData.func = tileTypes.t3.func;
-      }
-
-      // if tile above is white and tile below is 8 make black
-      if (tiletoLeftIsWhite && tileBelowIs8) {
-        tileData.key = "t6";
-        tileData.func = tileTypes.t6.func;
-      }
-
-      if (tileToLeftIs8 && tileAboveIsWhite && tileBelowIsWhite) {
-        tileData.key = "t5";
-        tileData.func = tileTypes.t5.func;
+      if (tileToLeftIsWhite && !tileBelow) {
+        tileData.key = "t4";
+        tileData.func = tileTypes.t4.func;
       }
     }
   }
@@ -226,7 +183,7 @@ export const addTileSecondPass = tileDataArray => {
 };
 
 //
-// STEP 4: add tile 3s
+// STEP 4: rows, cols and corners
 //
 export const addBlackEdgesAndConnectors = tileDataArray => {
   let tilesChanged = 1;
@@ -305,12 +262,7 @@ export const addBlackEdgesAndConnectors = tileDataArray => {
         }
 
         // fill col of black
-        if (tileToLeftIsWhite && tileBelowIs8) {
-          tileData.key = "t6";
-          tileData.func = tileTypes.t6.func;
-          tilesChanged++;
-        }
-        if (tileToLeftIsWhite && tileBelowIsBlack) {
+        if (tileToLeftIsWhite && blackBelow) {
           tileData.key = "t6";
           tileData.func = tileTypes.t6.func;
           tilesChanged++;
@@ -335,6 +287,58 @@ export const addBlackEdgesAndConnectors = tileDataArray => {
         if (stripesOnLeft && stripesBelow) {
           tileData.key = "t5";
           tileData.func = tileTypes.t5.func;
+          tilesChanged++;
+        }
+      }
+    }
+  }
+
+  return tileDataArray;
+};
+
+//
+// STEP 4: rows, cols and corners
+//
+export const addBackgroundEdgesAndConnectors = tileDataArray => {
+  let tilesChanged = 1;
+
+  // keep adding
+  while (tilesChanged > 0) {
+    tilesChanged = 0;
+
+    for (let tileData of tileDataArray) {
+      const {
+        key,
+        tileAbove,
+        tileBelow,
+        tileToLeft,
+        tileToRight,
+        tileBelowLeft,
+        isLastRow
+      } = tileData;
+
+      const isCurrentlyBg = key === "t7";
+      const tileToLeftIsWhite = tileToLeft && tileToLeft.key === "t1";
+      const tileBelowIsWhite = tileBelow && tileBelow.key === "t1";
+      const tileLeftIsWhite = tileToLeft && tileToLeft.key === "t1";
+      const tileRightIsWhite = tileToRight && tileToRight.key === "t1";
+      const tileBelowLeftIsWhite = tileBelowLeft && tileBelowLeft === "t1";
+      const tileToLeftIs7 = tileToLeft && tileToLeft.key === "t7";
+      const tileToLeftIs4 = tileToLeft && tileToLeft.key === "t4";
+      const tileToLeftIsBg = tileToLeftIs7 || tileToLeftIs4;
+      const tileBelowLeftIsBg = tileBelowLeft && tileBelowLeft.key === "t7";
+      const tileBelowIsBlack = tileBelow && tileBelow.key === "t4";
+
+      if (isCurrentlyBg) {
+        // Stripe-to-black corner
+        if (tileLeftIsWhite && tileBelowLeftIsBg) {
+          tileData.key = "t4";
+          tileData.func = tileTypes.t4.func;
+          tilesChanged++;
+        }
+        if (tileBelowIsBlack && tileRightIsWhite && tileToLeftIsWhite) {
+          tileData.key = "t6";
+          tileData.func = tileTypes.t6.func;
           tilesChanged++;
         }
       }
@@ -447,9 +451,9 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
 
   const tileData2 = addTileNeighborInfo(tileData1);
   const tileData3 = addTileFirstPass(tileData2);
-  // const tileData4 = addTileSecondPass(tileData3);
   const tileData4 = addBlackEdgesAndConnectors(tileData3);
-  const tileData = addFrontFaceOutlineData(tileData4);
+  const tileData5 = addBackgroundEdgesAndConnectors(tileData4);
+  const tileData = addFrontFaceOutlineData(tileData5);
 
   const tiles = [];
   const stripeSpacing = tileSize / 10;
