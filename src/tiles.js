@@ -265,18 +265,18 @@ export const getTileOne = ({
         fill={"none"}
       />
 
-      {options.top && (
+      {/* {options.top && (
         <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
-      )}
+      )}*/}
       {options.bottom && (
         <line x1={0} y1={height} x2={width} y2={height} stroke={lineColour} />
       )}
       {options.left && (
         <line x1={0} y1={0} x2={0} y2={height} stroke={lineColour} />
       )}
-      {options.right && (
+      {/* {options.right && (
         <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
-      )}
+      )} */}
     </g>
   );
 };
