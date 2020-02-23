@@ -5,9 +5,16 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@rmwc/button": "^5.7.2",
+    "@rmwc/switch": "^5.7.2",
+    "file-saver": "^2.0.2",
     "react": "16.12.0",
+    "react-compound-slider": "^2.5.0",
     "react-dom": "16.12.0",
-    "react-scripts": "3.0.1"
+    "react-icons": "^3.9.0",
+    "react-scripts": "3.0.1",
+    "react-spaces": "^0.1.24",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "typescript": "3.3.3"

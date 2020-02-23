@@ -1,18 +1,44 @@
-import React from "react";
-import "./styles.css";
+import React, { useState } from "react";
+import * as Space from "react-spaces";
 // comps
-import { GetTiles } from "./utils";
-
-const width = 900;
-const height = 900;
-const tilesPerWidth = 30;
+//
+import TopBar from "./top-bar/TopBar";
+import Display from "./display/Display";
+import Controls from "./controls/Controls";
+import { defaultAppData } from "./appData";
 
 export default function App() {
-  const tiles = GetTiles({ width, height, tilesPerWidth });
+  const [appData, setAppData] = useState(defaultAppData);
+  const [optionsVisible, setOptionsVisible] = useState(true);
 
   return (
-    <svg width={width} height={height}>
-      {tiles}
-    </svg>
+    <Space.ViewPort>
+      <Space.Top size={60}>
+        <Space.Info>
+          {sizeInfo => (
+            <TopBar
+              title={appData.title}
+              infoUrl={appData.infoUrl}
+              optionsVisible={optionsVisible}
+              setOptionsVisible={setOptionsVisible}
+              width={sizeInfo.width}
+            />
+          )}
+        </Space.Info>
+      </Space.Top>
+
+      <Space.Fill>
+        {optionsVisible && (
+          <Space.LeftResizable size={280} scrollable={true}>
+            <Controls onUpdate={setAppData} appData={appData} />
+          </Space.LeftResizable>
+        )}
+        <Space.Fill trackSize={true}>
+          <Space.Info>
+            {sizeInfo => <Display sizeInfo={sizeInfo} appData={appData} />}
+          </Space.Info>
+        </Space.Fill>
+      </Space.Fill>
+    </Space.ViewPort>
   );
 }
