@@ -10,19 +10,15 @@ import {
   getTileOne
 } from "./tiles";
 
-// const allKeys = ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"];
-const allKeys = ["t1", "t3", "t5", "t8"];
-
 //
 // STEP 1: generate front faces (white) squares
 //
 export const getRandomFrontFaceData = ({
-  width,
-  height,
+  tileWidth,
+  tileHeight,
   tilesPerWidth,
-  tileSize
+  tilesPerHeight
 }) => {
-  const tilesPerHeight = Math.floor(height / tileSize);
   const tileDataArray = [];
 
   for (let tileRow = 0; tileRow < tilesPerHeight; tileRow++) {
@@ -58,7 +54,6 @@ export const getRandomFrontFaceData = ({
         col: tileCol,
         isFirstRow,
         isFirstCol,
-        isFirstCol,
         isLastCol,
         index,
         indexAbove,
@@ -69,9 +64,10 @@ export const getRandomFrontFaceData = ({
         indexBelowRight,
         indexToLeft,
         indexToRight,
-        x: tileCol * tileSize,
-        y: tileRow * tileSize,
-        size: tileSize
+        x: tileCol * tileWidth,
+        y: tileRow * tileHeight,
+        width: tileWidth,
+        height: tileHeight
       };
 
       if (addTile) {
@@ -348,105 +344,51 @@ export const addBackgroundEdgesAndConnectors = tileDataArray => {
   return tileDataArray;
 };
 
-export const getRandomAllowedTileData = ({
-  x,
-  y,
-  size,
-  tileAbove,
-  tileToLeft
+export const GetTestTiles = ({
+  width,
+  height,
+  tilesPerWidth,
+  tileKey = "t2"
 }) => {
-  const tilesAllowedOnRight = tileToLeft ? tileToLeft.allowedOnRight : [];
-  const tilesAllowedBelow = tileAbove ? tileAbove.allowedBelow : [];
+  const tileWidth = width / tilesPerWidth;
+  const tilesPerHeight = tilesPerWidth;
+  const tileHeight = height / tilesPerHeight;
 
-  const keys = getKeysInBothArrays(
-    tilesAllowedOnRight,
-    tilesAllowedBelow,
-    allKeys
-  );
-  const key = getRandomKey(keys);
-  const tInfo = tileTypes[key];
-  const { allowedOnRight, allowedBelow, func } = tInfo;
+  const tiles = [];
+  const stripeSpacing = tileHeight / 10;
+  const totalStripes = 10;
 
-  const options = getTileOptions({ key, tileToLeft, tileAbove });
-
-  const t = {
-    x,
-    y,
-    key,
-    size,
-    allowedOnRight,
-    allowedBelow,
-    func,
-    options
-  };
-
-  return t;
-};
-
-const showTopLineWhen = ({ options, key, tileAbove, matches }) => {
-  for (let m of matches) {
-    if (tileAbove && tileAbove.key === m) {
-      options.top = true;
+  for (let tileRow = 0; tileRow < tilesPerHeight; tileRow++) {
+    for (let tileCol = 0; tileCol < tilesPerWidth; tileCol++) {
+      tiles.push(
+        tileTypes[tileKey].func({
+          width: tileWidth,
+          height: tileHeight,
+          x: tileCol * tileWidth,
+          y: tileRow * tileHeight,
+          lineColour: "#000",
+          fill: "#fff",
+          totalStripes,
+          stripeSpacing,
+          options: { top: true, left: true }
+        })
+      );
     }
   }
-};
 
-const showLeftLineWhen = ({ options, key, tileToLeft, matches }) => {
-  for (let m of matches) {
-    if (tileToLeft && tileToLeft.key === m) {
-      options.left = true;
-    }
-  }
-};
-
-const getTileOptions = ({ key, tileToLeft, tileAbove }) => {
-  let options = {};
-
-  if (key === "t1") {
-    showTopLineWhen({ options, key: "t1", tileAbove, matches: ["t5", "t8"] });
-    showLeftLineWhen({ options, key: "t1", tileToLeft, matches: ["t5", "t8"] });
-  }
-
-  if (key === "t3") {
-    showTopLineWhen({ options, key: "t3", tileAbove, matches: ["t1"] });
-    // showLeftLineWhen({ options, key: "t1", tileToLeft, matches: ["t5", "t8"] });
-  }
-
-  if (key === "t5") {
-    showTopLineWhen({ options, key: "t5", tileAbove, matches: ["t1"] });
-    // showLeftLineWhen({ options, key: "t1", tileToLeft, matches: ["t5", "t8"] });
-  }
-
-  return options;
-};
-
-const getKeysInBothArrays = (array1, array2, defaultArr) => {
-  // if both arrays are null
-  if (!array1 && !array2) return defaultArr;
-
-  // if both arrays are empty
-  if (array1.length < 1 && array2.length < 1) return defaultArr;
-
-  if (array1.length < 1) return array2;
-  if (array2.length < 1) return array1;
-
-  const returnArray = array1.filter(key => array2.indexOf(key) !== -1);
-
-  return returnArray.length < 1 ? defaultArr : returnArray;
-};
-
-const getRandomKey = array => {
-  const randIndex = Math.floor(Math.random() * array.length);
-  return array[randIndex];
+  return tiles;
 };
 
 export const GetTiles = ({ width, height, tilesPerWidth }) => {
-  const tileSize = width / tilesPerWidth;
+  const tileWidth = width / tilesPerWidth;
+  const tilesPerHeight = tilesPerWidth; //Math.floor(height / tileWidth);
+  const tileHeight = height / tilesPerHeight;
+
   const tileData1 = getRandomFrontFaceData({
-    width,
-    height,
-    tileSize,
-    tilesPerWidth
+    tileWidth,
+    tileHeight,
+    tilesPerWidth,
+    tilesPerHeight
   });
 
   const tileData2 = addTileNeighborInfo(tileData1);
@@ -456,14 +398,15 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
   const tileData = addFrontFaceOutlineData(tileData5);
 
   const tiles = [];
-  const stripeSpacing = tileSize / 10;
+  const stripeSpacing = tileHeight / 10;
   const totalStripes = 10;
 
   for (let titleInfo of tileData) {
     if (titleInfo) {
       tiles.push(
         titleInfo.func({
-          size: titleInfo.size,
+          width: tileWidth,
+          height: tileHeight,
           x: titleInfo.x,
           y: titleInfo.y,
           lineColour: "#000",
@@ -476,7 +419,8 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
     } else {
       tiles.push(
         tileTypes.t9.func({
-          size: tileSize,
+          width: tileWidth,
+          height: tileHeight,
           x: titleInfo.x,
           y: titleInfo.y,
           lineColour: "#000",
@@ -488,78 +432,6 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
   }
 
   return tiles;
-};
-
-export const GetTilesOLD = ({ width, height, tilesPerWidth }) => {
-  const tileSize = width / tilesPerWidth;
-  const tileData = GenerateTileData({ width, height, tileSize, tilesPerWidth });
-
-  // console.log("tileData: ", tileData);
-
-  const tiles = [];
-  const stripeSpacing = tileSize / 10;
-  const totalStripes = 10;
-
-  for (let titleInfo of tileData) {
-    if (titleInfo) {
-      tiles.push(
-        titleInfo.func({
-          size: titleInfo.size,
-          x: titleInfo.x,
-          y: titleInfo.y,
-          lineColour: "#000",
-          totalStripes,
-          stripeSpacing,
-          options: titleInfo.options
-        })
-      );
-    } else {
-      tiles.push(
-        tileTypes.t9.func({
-          size: tileSize,
-          x: titleInfo.x,
-          y: titleInfo.y,
-          lineColour: "#000",
-          totalStripes,
-          stripeSpacing
-        })
-      );
-    }
-  }
-
-  return tiles;
-};
-
-export const GenerateTileData = ({
-  width,
-  height,
-  tilesPerWidth,
-  tileSize
-}) => {
-  const tilesPerHeight = Math.floor(height / tileSize);
-  const tileDataArray = [];
-
-  for (let y = 0; y < tilesPerHeight; y++) {
-    for (let x = 0; x < tilesPerWidth; x++) {
-      const index = x + y * tilesPerWidth;
-      const indexAbove = index - tilesPerWidth;
-      const indexToLeft = x === 0 ? -1 : index - 1;
-      const tileAbove = indexAbove < 0 ? null : tileDataArray[indexAbove];
-      const tileToLeft = indexToLeft < 0 ? null : tileDataArray[indexToLeft];
-
-      const tileData = getRandomAllowedTileData({
-        x: x * tileSize,
-        y: y * tileSize,
-        size: tileSize,
-        tileAbove,
-        tileToLeft
-      });
-
-      tileDataArray.push(tileData);
-    }
-  }
-
-  return tileDataArray;
 };
 
 const tileTypes = {

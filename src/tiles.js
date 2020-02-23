@@ -4,7 +4,8 @@ import React from "react";
 // EIGHT
 //
 export const getTileEight = ({
-  size,
+  width,
+  height,
   x,
   y,
   lineColour = "#000",
@@ -16,8 +17,8 @@ export const getTileEight = ({
     stripes.push(
       <line
         key={s}
-        x1={size - s * stripeSpacing}
-        x2={size}
+        x1={width - s * stripeSpacing}
+        x2={width}
         y1={s * stripeSpacing}
         y2={s * stripeSpacing}
       />
@@ -30,7 +31,10 @@ export const getTileEight = ({
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
     >
-      <polygon points={`${0},${size} ${0},${0} ${size},${0}`} fill={"#000"} />
+      <polygon
+        points={`${0},${height} ${0},${0} ${width},${0}`}
+        fill={"#000"}
+      />
       {stripes}
     </g>
   );
@@ -39,23 +43,16 @@ export const getTileEight = ({
 //
 // SEVEN
 //
-export const getTileSeven = ({
-  size,
-  x,
-  y,
-  lineColour = "#000",
-  totalStripes,
-  stripeSpacing
-}) => {
+export const getTileSeven = ({ width, height, x, y, lineColour = "#000" }) => {
   return (
     <g
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
     >
-      <line x1={0} x2={size / 2} y1={size / 2} y2={0} />
-      <line x1={0} x2={size} y1={size} y2={0} />
-      <line x1={size / 2} x2={size} y1={size} y2={size / 2} />
+      <line x1={0} x2={width / 2} y1={height / 2} y2={0} />
+      <line x1={0} x2={width} y1={height} y2={0} />
+      <line x1={width / 2} x2={width} y1={height} y2={height / 2} />
     </g>
   );
 };
@@ -63,14 +60,14 @@ export const getTileSeven = ({
 //
 // SIX
 //
-export const getTileSix = ({ size, x, y, lineColour = "#000" }) => {
+export const getTileSix = ({ width, height, x, y }) => {
   return (
     <rect
       key={`x${x},y${y}`}
       x={x}
       y={y}
-      width={size}
-      height={size}
+      width={width}
+      height={height}
       stroke={"none"}
       fill={"#000"}
     />
@@ -81,7 +78,8 @@ export const getTileSix = ({ size, x, y, lineColour = "#000" }) => {
 // FIVE
 //
 export const getTileFive = ({
-  size,
+  width,
+  height,
   x,
   y,
   lineColour = "#000",
@@ -95,7 +93,7 @@ export const getTileFive = ({
       <line
         key={s}
         x1={0}
-        x2={size}
+        x2={width}
         y1={s * stripeSpacing}
         y2={s * stripeSpacing}
       />
@@ -111,16 +109,16 @@ export const getTileFive = ({
       {stripes}
 
       {options.top && (
-        <line x1={0} y1={0} x2={size} y2={0} stroke={lineColour} />
+        <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
       )}
       {options.bottom && (
-        <line x1={0} y1={size} x2={size} y2={size} stroke={lineColour} />
+        <line x1={0} y1={height} x2={width} y2={height} stroke={lineColour} />
       )}
       {options.left && (
-        <line x1={0} y1={0} x2={0} y2={size} stroke={lineColour} />
+        <line x1={0} y1={0} x2={0} y2={height} stroke={lineColour} />
       )}
       {options.right && (
-        <line x1={size} y1={0} x2={size} y2={size} stroke={lineColour} />
+        <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
       )}
     </g>
   );
@@ -129,23 +127,19 @@ export const getTileFive = ({
 //
 // FOUR
 //
-export const getTileFour = ({
-  size,
-  x,
-  y,
-  lineColour = "#000",
-  totalStripes,
-  stripeSpacing
-}) => {
+export const getTileFour = ({ width, height, x, y, lineColour = "#000" }) => {
   return (
     <g
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
     >
-      <polygon points={`${0},${size} ${0},${0} ${size},${0}`} fill={"#000"} />
-      <line x1={0} x2={size} y1={size} y2={0} />
-      <line x1={size / 2} x2={size} y1={size} y2={size / 2} />
+      <polygon
+        points={`${0},${height} ${0},${0} ${width},${0}`}
+        fill={"#000"}
+      />
+      <line x1={0} x2={width} y1={height} y2={0} />
+      <line x1={width / 2} x2={width} y1={height} y2={height / 2} />
     </g>
   );
 };
@@ -154,7 +148,8 @@ export const getTileFour = ({
 // THREE
 //
 export const getTileThree = ({
-  size,
+  width,
+  height,
   x,
   y,
   lineColour = "#000",
@@ -163,12 +158,14 @@ export const getTileThree = ({
   options = { top: false, right: false, bottom: false, left: false }
 }) => {
   const stripes = [];
+  const horizontalOffset = width / totalStripes;
+
   for (let s = 1; s <= totalStripes; s++) {
     stripes.push(
       <line
         key={s}
         x1={0}
-        x2={size - s * stripeSpacing}
+        x2={width - s * horizontalOffset}
         y1={s * stripeSpacing}
         y2={s * stripeSpacing}
       />
@@ -183,21 +180,21 @@ export const getTileThree = ({
     >
       {stripes}
       <polygon
-        points={`${0},${size} ${size},${0} ${size},${size}`}
+        points={`${0},${height} ${width},${0} ${width},${height}`}
         fill={"#000"}
       />
 
       {options.top && (
-        <line x1={0} y1={0} x2={size} y2={0} stroke={lineColour} />
+        <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
       )}
       {options.bottom && (
-        <line x1={0} y1={size} x2={size} y2={size} stroke={lineColour} />
+        <line x1={0} y1={height} x2={width} y2={height} stroke={lineColour} />
       )}
       {options.left && (
-        <line x1={0} y1={0} x2={0} y2={size} stroke={lineColour} />
+        <line x1={0} y1={0} x2={0} y2={height} stroke={lineColour} />
       )}
       {options.right && (
-        <line x1={size} y1={0} x2={size} y2={size} stroke={lineColour} />
+        <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
       )}
     </g>
   );
@@ -207,7 +204,8 @@ export const getTileThree = ({
 // TWO
 //
 export const getTileTwo = ({
-  size,
+  width,
+  height,
   x,
   y,
   lineColour = "#000",
@@ -215,12 +213,14 @@ export const getTileTwo = ({
   stripeSpacing
 }) => {
   const stripes = [];
+  const horizontalOffset = width / totalStripes;
+
   for (let s = 1; s <= totalStripes; s++) {
     stripes.push(
       <line
         key={s}
-        x1={size - s * stripeSpacing}
-        x2={size}
+        x1={width - s * horizontalOffset}
+        x2={width}
         y1={s * stripeSpacing}
         y2={s * stripeSpacing}
       />
@@ -233,8 +233,8 @@ export const getTileTwo = ({
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
     >
-      <line x1={0} x2={size / 2} y1={size / 2} y2={0} />
-      <line x1={0} x2={size} y1={size} y2={0} />
+      <line x1={0} x2={width / 2} y1={height / 2} y2={0} />
+      <line x1={0} x2={width} y1={height} y2={0} />
       {stripes}
     </g>
   );
@@ -244,7 +244,8 @@ export const getTileTwo = ({
 // ONE
 //
 export const getTileOne = ({
-  size,
+  width,
+  height,
   x,
   y,
   lineColour = "#000",
@@ -256,23 +257,23 @@ export const getTileOne = ({
       <rect
         x={0}
         y={0}
-        width={size}
-        height={size}
+        width={width}
+        height={height}
         stroke={"none"}
         fill={fill}
       />
 
       {options.top && (
-        <line x1={0} y1={0} x2={size} y2={0} stroke={lineColour} />
+        <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
       )}
       {options.bottom && (
-        <line x1={0} y1={size} x2={size} y2={size} stroke={lineColour} />
+        <line x1={0} y1={height} x2={width} y2={height} stroke={lineColour} />
       )}
       {options.left && (
-        <line x1={0} y1={0} x2={0} y2={size} stroke={lineColour} />
+        <line x1={0} y1={0} x2={0} y2={height} stroke={lineColour} />
       )}
       {options.right && (
-        <line x1={size} y1={0} x2={size} y2={size} stroke={lineColour} />
+        <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
       )}
     </g>
   );
