@@ -62,17 +62,48 @@ export const getTileSeven = ({ width, height, x, y, lineColour = "#000" }) => {
 //
 // SIX
 //
-export const getTileSix = ({ width, height, x, y }) => {
+export const getTileSix = ({
+  width,
+  height,
+  x,
+  y,
+  lineColour = "#000",
+  totalTightStripes
+}) => {
+  const hatchings = [];
+  const verticalSpacing = height / totalTightStripes;
+  const horizontalSpacing = width / totalTightStripes;
+
+  for (let h = 0; h <= totalTightStripes; h++) {
+    hatchings.push(
+      <line
+        key={h}
+        x1={0}
+        x2={width}
+        y1={h * verticalSpacing}
+        y2={h * verticalSpacing}
+        strokeWidth={1}
+        stroke={"#000"}
+      />,
+      <line
+        key={h + "VERT"}
+        x1={h * horizontalSpacing}
+        x2={h * horizontalSpacing}
+        y1={0}
+        y2={height}
+        strokeWidth={1}
+        stroke={"#000"}
+      />
+    );
+  }
   return (
-    <rect
+    <g
       key={`x${x},y${y}`}
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      stroke={"none"}
-      fill={"#000"}
-    />
+      transform={`translate(${x} ${y})`}
+      stroke={lineColour}
+    >
+      {hatchings}
+    </g>
   );
 };
 
@@ -156,11 +187,39 @@ export const getTileThree = ({
   y,
   lineColour = "#000",
   totalStripes,
+  totalTightStripes,
   stripeSpacing,
   options = { top: false, right: false, bottom: false, left: false }
 }) => {
   const stripes = [];
+  const hatchings = [];
+  const verticalSpacing = height / totalTightStripes;
+  const horizontalSpacing = width / totalTightStripes;
+
   const horizontalOffset = width / totalStripes;
+
+  for (let h = 0; h <= totalTightStripes; h++) {
+    hatchings.push(
+      <line
+        key={h + "horz"}
+        x1={width - h * horizontalSpacing}
+        x2={width}
+        y1={h * verticalSpacing}
+        y2={h * verticalSpacing}
+        strokeWidth={4}
+        stroke={"#000"}
+      />,
+      <line
+        key={h + "VERT"}
+        x1={h * horizontalSpacing}
+        x2={h * horizontalSpacing}
+        y1={height - h * verticalSpacing}
+        y2={height}
+        strokeWidth={4}
+        stroke={"#000"}
+      />
+    );
+  }
 
   for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
@@ -181,10 +240,11 @@ export const getTileThree = ({
       stroke={lineColour}
     >
       {stripes}
-      <polygon
+      {hatchings}
+      {/* <polygon
         points={`${0},${height} ${width},${0} ${width},${height}`}
         fill={"#000"}
-      />
+      /> */}
 
       {options.top && (
         <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
