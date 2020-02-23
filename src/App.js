@@ -9,7 +9,7 @@ import { defaultAppData } from "./appData";
 
 export default function App() {
   const [appData, setAppData] = useState(defaultAppData);
-  const [optionsVisible, setOptionsVisible] = useState(false);
+  const [optionsVisible, setOptionsVisible] = useState(true);
 
   return (
     <Space.ViewPort>
@@ -29,7 +29,7 @@ export default function App() {
 
       <Space.Fill>
         {optionsVisible && (
-          <Space.LeftResizable size={280} scrollable={true}>
+          <Space.LeftResizable size={200} scrollable={true}>
             <Controls onUpdate={setAppData} appData={appData} />
           </Space.LeftResizable>
         )}

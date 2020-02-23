@@ -13,11 +13,13 @@ export const getTileEight = ({
   stripeSpacing
 }) => {
   const stripes = [];
-  for (let s = 1; s <= totalStripes; s++) {
+  const horizontalOffset = width / totalStripes;
+
+  for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
       <line
         key={s}
-        x1={width - s * stripeSpacing}
+        x1={width - s * horizontalOffset}
         x2={width}
         y1={s * stripeSpacing}
         y2={s * stripeSpacing}
@@ -88,7 +90,7 @@ export const getTileFive = ({
   options = { top: false, right: false, bottom: false, left: false }
 }) => {
   const stripes = [];
-  for (let s = 1; s <= totalStripes; s++) {
+  for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
       <line
         key={s}
@@ -160,7 +162,7 @@ export const getTileThree = ({
   const stripes = [];
   const horizontalOffset = width / totalStripes;
 
-  for (let s = 1; s <= totalStripes; s++) {
+  for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
       <line
         key={s}
@@ -215,7 +217,7 @@ export const getTileTwo = ({
   const stripes = [];
   const horizontalOffset = width / totalStripes;
 
-  for (let s = 1; s <= totalStripes; s++) {
+  for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
       <line
         key={s}
@@ -260,7 +262,7 @@ export const getTileOne = ({
         width={width}
         height={height}
         stroke={"none"}
-        fill={fill}
+        fill={"none"}
       />
 
       {options.top && (

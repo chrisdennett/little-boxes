@@ -307,6 +307,7 @@ export const addBackgroundEdgesAndConnectors = tileDataArray => {
         key,
         tileAbove,
         tileBelow,
+        tileBelowRight,
         tileToLeft,
         tileToRight,
         tileBelowLeft,
@@ -318,12 +319,13 @@ export const addBackgroundEdgesAndConnectors = tileDataArray => {
       const tileBelowIsWhite = tileBelow && tileBelow.key === "t1";
       const tileLeftIsWhite = tileToLeft && tileToLeft.key === "t1";
       const tileRightIsWhite = tileToRight && tileToRight.key === "t1";
-      const tileBelowLeftIsWhite = tileBelowLeft && tileBelowLeft === "t1";
       const tileToLeftIs7 = tileToLeft && tileToLeft.key === "t7";
       const tileToLeftIs4 = tileToLeft && tileToLeft.key === "t4";
       const tileToLeftIsBg = tileToLeftIs7 || tileToLeftIs4;
       const tileBelowLeftIsBg = tileBelowLeft && tileBelowLeft.key === "t7";
       const tileBelowIsBlack = tileBelow && tileBelow.key === "t4";
+      //const tileBelowRightIsWhite = tileBelowRight && tileBelowRight.key === "t1";
+      const tileBelowLeftIsWhite = tileBelowLeft && tileBelowLeft.key === "t1";
 
       if (isCurrentlyBg) {
         // Stripe-to-black corner
@@ -335,6 +337,24 @@ export const addBackgroundEdgesAndConnectors = tileDataArray => {
         if (tileBelowIsBlack && tileRightIsWhite && tileToLeftIsWhite) {
           tileData.key = "t6";
           tileData.func = tileTypes.t6.func;
+          tilesChanged++;
+        }
+
+        /*
+        if stripes to the left, stripes above, white left and bottom
+        */
+        if (tileToLeftIsBg && !tileBelowLeftIsWhite && tileBelowIsWhite) {
+          tileData.key = "t2";
+          tileData.func = tileTypes.t2.func;
+          tilesChanged++;
+        }
+
+        /*
+        if bg below and white on left and white not on bottom left
+        */
+        if (tileToLeftIsWhite && !tileBelowLeftIsWhite) {
+          tileData.key = "t4";
+          tileData.func = tileTypes.t4.func;
           tilesChanged++;
         }
       }
@@ -395,7 +415,9 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
   const tileData3 = addTileFirstPass(tileData2);
   const tileData4 = addBlackEdgesAndConnectors(tileData3);
   const tileData5 = addBackgroundEdgesAndConnectors(tileData4);
-  const tileData = addFrontFaceOutlineData(tileData5);
+  const tileData6 = addBlackEdgesAndConnectors(tileData5);
+
+  const tileData = addFrontFaceOutlineData(tileData6);
 
   const tiles = [];
   const stripeSpacing = tileHeight / 10;
