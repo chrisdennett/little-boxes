@@ -9,11 +9,37 @@ export const getTileEight = ({
   x,
   y,
   lineColour = "#000",
+  lineThickness,
   totalStripes,
+  totalTightStripes,
   stripeSpacing
 }) => {
   const stripes = [];
   const horizontalOffset = width / totalStripes;
+
+  const hatchings = [];
+
+  const verticalSpacing = height / totalTightStripes;
+  const horizontalSpacing = width / totalTightStripes;
+
+  for (let h = 0; h <= totalTightStripes; h++) {
+    hatchings.push(
+      <line
+        key={h + "horz"}
+        x1={0}
+        x2={width - h * horizontalSpacing}
+        y1={h * verticalSpacing}
+        y2={h * verticalSpacing}
+      />,
+      <line
+        key={h + "VERT"}
+        x1={h * horizontalSpacing}
+        x2={h * horizontalSpacing}
+        y1={0}
+        y2={height - h * verticalSpacing}
+      />
+    );
+  }
 
   for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
@@ -32,11 +58,9 @@ export const getTileEight = ({
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
+      strokeWidth={lineThickness}
     >
-      <polygon
-        points={`${0},${height} ${0},${0} ${width},${0}`}
-        fill={"#000"}
-      />
+      {hatchings}
       {stripes}
     </g>
   );
@@ -45,12 +69,20 @@ export const getTileEight = ({
 //
 // SEVEN
 //
-export const getTileSeven = ({ width, height, x, y, lineColour = "#000" }) => {
+export const getTileSeven = ({
+  width,
+  height,
+  x,
+  y,
+  lineColour = "#000",
+  lineThickness
+}) => {
   return (
     <g
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
+      strokeWidth={lineThickness}
     >
       <line x1={0} x2={width / 2} y1={height / 2} y2={0} />
       <line x1={0} x2={width} y1={height} y2={0} />
@@ -68,6 +100,7 @@ export const getTileSix = ({
   x,
   y,
   lineColour = "#000",
+  lineThickness,
   totalTightStripes
 }) => {
   const hatchings = [];
@@ -82,8 +115,6 @@ export const getTileSix = ({
         x2={width}
         y1={h * verticalSpacing}
         y2={h * verticalSpacing}
-        strokeWidth={1}
-        stroke={"#000"}
       />,
       <line
         key={h + "VERT"}
@@ -91,8 +122,6 @@ export const getTileSix = ({
         x2={h * horizontalSpacing}
         y1={0}
         y2={height}
-        strokeWidth={1}
-        stroke={"#000"}
       />
     );
   }
@@ -101,6 +130,7 @@ export const getTileSix = ({
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
+      strokeWidth={lineThickness}
     >
       {hatchings}
     </g>
@@ -116,6 +146,7 @@ export const getTileFive = ({
   x,
   y,
   lineColour = "#000",
+  lineThickness,
   totalStripes,
   stripeSpacing,
   options = { top: false, right: false, bottom: false, left: false }
@@ -138,21 +169,9 @@ export const getTileFive = ({
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
+      strokeWidth={lineThickness}
     >
       {stripes}
-
-      {options.top && (
-        <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
-      )}
-      {options.bottom && (
-        <line x1={0} y1={height} x2={width} y2={height} stroke={lineColour} />
-      )}
-      {options.left && (
-        <line x1={0} y1={0} x2={0} y2={height} stroke={lineColour} />
-      )}
-      {options.right && (
-        <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
-      )}
     </g>
   );
 };
@@ -160,17 +179,48 @@ export const getTileFive = ({
 //
 // FOUR
 //
-export const getTileFour = ({ width, height, x, y, lineColour = "#000" }) => {
+export const getTileFour = ({
+  width,
+  height,
+  x,
+  y,
+  lineColour = "#000",
+  lineThickness,
+  totalTightStripes
+}) => {
+  const hatchings = [];
+
+  const verticalSpacing = height / totalTightStripes;
+  const horizontalSpacing = width / totalTightStripes;
+
+  for (let h = 0; h <= totalTightStripes; h++) {
+    hatchings.push(
+      <line
+        key={h + "horz"}
+        x1={0}
+        x2={width - h * horizontalSpacing}
+        y1={h * verticalSpacing}
+        y2={h * verticalSpacing}
+      />,
+      <line
+        key={h + "VERT"}
+        x1={h * horizontalSpacing}
+        x2={h * horizontalSpacing}
+        y1={0}
+        y2={height - h * verticalSpacing}
+      />
+    );
+  }
+
   return (
     <g
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
+      strokeWidth={lineThickness}
     >
-      <polygon
-        points={`${0},${height} ${0},${0} ${width},${0}`}
-        fill={"#000"}
-      />
+      {hatchings}
+
       <line x1={0} x2={width} y1={height} y2={0} />
       <line x1={width / 2} x2={width} y1={height} y2={height / 2} />
     </g>
@@ -187,12 +237,14 @@ export const getTileThree = ({
   y,
   lineColour = "#000",
   totalStripes,
+  lineThickness,
   totalTightStripes,
   stripeSpacing,
   options = { top: false, right: false, bottom: false, left: false }
 }) => {
   const stripes = [];
   const hatchings = [];
+
   const verticalSpacing = height / totalTightStripes;
   const horizontalSpacing = width / totalTightStripes;
 
@@ -206,8 +258,6 @@ export const getTileThree = ({
         x2={width}
         y1={h * verticalSpacing}
         y2={h * verticalSpacing}
-        strokeWidth={4}
-        stroke={"#000"}
       />,
       <line
         key={h + "VERT"}
@@ -215,8 +265,6 @@ export const getTileThree = ({
         x2={h * horizontalSpacing}
         y1={height - h * verticalSpacing}
         y2={height}
-        strokeWidth={4}
-        stroke={"#000"}
       />
     );
   }
@@ -238,26 +286,10 @@ export const getTileThree = ({
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
+      strokeWidth={lineThickness}
     >
       {stripes}
       {hatchings}
-      {/* <polygon
-        points={`${0},${height} ${width},${0} ${width},${height}`}
-        fill={"#000"}
-      /> */}
-
-      {options.top && (
-        <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
-      )}
-      {options.bottom && (
-        <line x1={0} y1={height} x2={width} y2={height} stroke={lineColour} />
-      )}
-      {options.left && (
-        <line x1={0} y1={0} x2={0} y2={height} stroke={lineColour} />
-      )}
-      {options.right && (
-        <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
-      )}
     </g>
   );
 };
@@ -271,6 +303,7 @@ export const getTileTwo = ({
   x,
   y,
   lineColour = "#000",
+  lineThickness,
   totalStripes,
   stripeSpacing
 }) => {
@@ -294,6 +327,7 @@ export const getTileTwo = ({
       key={`x${x},y${y}`}
       transform={`translate(${x} ${y})`}
       stroke={lineColour}
+      strokeWidth={lineThickness}
     >
       <line x1={0} x2={width / 2} y1={height / 2} y2={0} />
       <line x1={0} x2={width} y1={height} y2={0} />
@@ -311,7 +345,7 @@ export const getTileOne = ({
   x,
   y,
   lineColour = "#000",
-  fill = "#fff",
+  lineThickness,
   options = { top: false, right: false, bottom: false, left: false }
 }) => {
   return (
@@ -353,7 +387,7 @@ export const getErrorTile = ({ size, x, y, lineColour = "#000" }) => {
       width={size}
       height={size}
       stroke={"none"}
-      fill={"none"}
+      fill={"#FF00FF"}
     />
   );
 };

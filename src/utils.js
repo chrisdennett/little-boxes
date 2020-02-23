@@ -423,16 +423,19 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
   const stripeSpacing = tileHeight / 10;
   const totalStripes = 10;
   const totalTightStripes = totalStripes * 2;
+  const lineColour = "#FF0000";
+  const lineThickness = 2;
 
   for (let titleInfo of tileData) {
     if (titleInfo) {
       tiles.push(
         titleInfo.func({
+          lineColour,
+          lineThickness,
           width: tileWidth,
           height: tileHeight,
           x: titleInfo.x,
           y: titleInfo.y,
-          lineColour: "#000",
           fill: "#fff",
           totalStripes,
           totalTightStripes,
@@ -447,7 +450,8 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
           height: tileHeight,
           x: titleInfo.x,
           y: titleInfo.y,
-          lineColour: "#000",
+          lineColour,
+          lineThickness,
           totalStripes,
           totalTightStripes,
           stripeSpacing
