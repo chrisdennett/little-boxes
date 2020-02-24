@@ -399,7 +399,7 @@ export const GetTestTiles = ({
   return tiles;
 };
 
-export const GetTiles = ({ width, height, tilesPerWidth }) => {
+export const GetTiles = ({ width, height, tilesPerWidth, lineColour }) => {
   const tileWidth = width / tilesPerWidth;
   const tilesPerHeight = tilesPerWidth; //Math.floor(height / tileWidth);
   const tileHeight = height / tilesPerHeight;
@@ -423,7 +423,7 @@ export const GetTiles = ({ width, height, tilesPerWidth }) => {
   const stripeSpacing = tileHeight / 10;
   const totalStripes = 10;
   const totalTightStripes = totalStripes * 2;
-  const lineColour = "#FF0000";
+  // const lineColour = "#FF0000";
   const lineThickness = 2;
 
   for (let titleInfo of tileData) {

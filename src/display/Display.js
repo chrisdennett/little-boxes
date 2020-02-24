@@ -8,8 +8,9 @@ const tilesPerWidth = 20;
 
 const Display = ({ sizeInfo, appData }) => {
   const { lineThickness } = appData.settings;
+  const lineColour = "#ff0000";
 
-  const tiles = GetTiles({ width, height, tilesPerWidth });
+  const tiles = GetTiles({ width, height, tilesPerWidth, lineColour });
   // const tiles = GetTestTiles({ width, height, tilesPerWidth });
 
   return (
@@ -27,7 +28,7 @@ const Display = ({ sizeInfo, appData }) => {
           height={height}
           fill={"none"}
           strokeWidth={2}
-          stroke={"#000"}
+          stroke={lineColour}
         />
       </svg>
     </Container>
