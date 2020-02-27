@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { GetTiles } from "../utils";
+import { GetTiles, getTileTypes } from "../utils";
 
 const width = 2550;
 const height = 3300;
@@ -11,14 +11,19 @@ const Display = ({ appData }) => {
   const lineColour = "#ff0000";
 
   const tiles = GetTiles({ width, height, tilesPerWidth, lineColour });
+  const keyTiles = getTileTypes({});
+
+  console.log("keyTiles: ", keyTiles);
 
   return (
     <Container id="svgHolder">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox={`0 0 ${width} ${height}`}
+        viewBox={`0 0 ${width / 2} ${height}`}
       >
-        <rect x={0} y={0} width={width} height={height} fill={"#fff"} />
+        {keyTiles}
+
+        {/* <rect x={0} y={0} width={width} height={height} fill={"#fff"} />
         {tiles}
         <rect
           x={0}
@@ -28,7 +33,7 @@ const Display = ({ appData }) => {
           fill={"none"}
           strokeWidth={2}
           stroke={lineColour}
-        />
+        /> */}
       </svg>
     </Container>
   );

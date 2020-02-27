@@ -1,4 +1,5 @@
 import React from "react";
+import { idText } from "typescript";
 
 //
 // EIGHT
@@ -17,29 +18,11 @@ export const getTileEight = ({
   const stripes = [];
   const horizontalOffset = width / totalStripes;
 
-  const hatchings = [];
-
-  const verticalSpacing = height / totalTightStripes;
-  const horizontalSpacing = width / totalTightStripes;
-
-  for (let h = 0; h <= totalTightStripes; h++) {
-    hatchings.push(
-      <line
-        key={h + "horz"}
-        x1={0}
-        x2={width - h * horizontalSpacing}
-        y1={h * verticalSpacing}
-        y2={h * verticalSpacing}
-      />,
-      <line
-        key={h + "VERT"}
-        x1={h * horizontalSpacing}
-        x2={h * horizontalSpacing}
-        y1={0}
-        y2={height - h * verticalSpacing}
-      />
-    );
-  }
+  const hatchings = getStripesForTriangle({
+    height,
+    width,
+    totalStripes: totalTightStripes
+  });
 
   for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
@@ -103,28 +86,12 @@ export const getTileSix = ({
   lineThickness,
   totalTightStripes
 }) => {
-  const hatchings = [];
-  const verticalSpacing = height / totalTightStripes;
-  const horizontalSpacing = width / totalTightStripes;
+  const hatchings = getStripesForRectangle({
+    height,
+    width,
+    totalStripes: totalTightStripes
+  });
 
-  for (let h = 0; h <= totalTightStripes; h++) {
-    hatchings.push(
-      <line
-        key={h}
-        x1={0}
-        x2={width}
-        y1={h * verticalSpacing}
-        y2={h * verticalSpacing}
-      />,
-      <line
-        key={h + "VERT"}
-        x1={h * horizontalSpacing}
-        x2={h * horizontalSpacing}
-        y1={0}
-        y2={height}
-      />
-    );
-  }
   return (
     <g
       key={`x${x},y${y}`}
@@ -188,29 +155,11 @@ export const getTileFour = ({
   lineThickness,
   totalTightStripes
 }) => {
-  const hatchings = [];
-
-  const verticalSpacing = height / totalTightStripes;
-  const horizontalSpacing = width / totalTightStripes;
-
-  for (let h = 0; h <= totalTightStripes; h++) {
-    hatchings.push(
-      <line
-        key={h + "horz"}
-        x1={0}
-        x2={width - h * horizontalSpacing}
-        y1={h * verticalSpacing}
-        y2={h * verticalSpacing}
-      />,
-      <line
-        key={h + "VERT"}
-        x1={h * horizontalSpacing}
-        x2={h * horizontalSpacing}
-        y1={0}
-        y2={height - h * verticalSpacing}
-      />
-    );
-  }
+  const hatchings = getStripesForTriangle({
+    height,
+    width,
+    totalStripes: totalTightStripes
+  });
 
   return (
     <g
@@ -242,32 +191,15 @@ export const getTileThree = ({
   stripeSpacing,
   options = { top: false, right: false, bottom: false, left: false }
 }) => {
+  const hatchings = getStripesForTriangle({
+    height,
+    width,
+    totalStripes: totalTightStripes,
+    isBottomRight: true
+  });
+
   const stripes = [];
-  const hatchings = [];
-
-  const verticalSpacing = height / totalTightStripes;
-  const horizontalSpacing = width / totalTightStripes;
-
   const horizontalOffset = width / totalStripes;
-
-  for (let h = 0; h <= totalTightStripes; h++) {
-    hatchings.push(
-      <line
-        key={h + "horz"}
-        x1={width - h * horizontalSpacing}
-        x2={width}
-        y1={h * verticalSpacing}
-        y2={h * verticalSpacing}
-      />,
-      <line
-        key={h + "VERT"}
-        x1={h * horizontalSpacing}
-        x2={h * horizontalSpacing}
-        y1={height - h * verticalSpacing}
-        y2={height}
-      />
-    );
-  }
 
   for (let s = 0; s <= totalStripes; s++) {
     stripes.push(
@@ -391,4 +323,79 @@ export const getErrorTile = ({ size, x, y, lineColour = "#000" }) => {
       fill={"#FF00FF"}
     />
   );
+};
+
+//
+// Striped rectangle
+//
+const getStripesForRectangle = ({ height, width, totalStripes }) => {
+  const hatchings = [];
+  const verticalSpacing = height / totalStripes;
+  const horizontalSpacing = width / totalStripes;
+
+  for (let h = 1; h <= totalStripes * 2; h++) {
+    let startY = h * verticalSpacing;
+    let endY = 0;
+
+    let startX = 0;
+    let endX = h * horizontalSpacing;
+
+    if (startY > height) {
+      startY = height;
+      endY = h * verticalSpacing - height;
+    }
+
+    if (endX > width) {
+      startX = h * horizontalSpacing - width;
+      endX = width;
+    }
+
+    hatchings.push(
+      <line key={h} x1={startX} x2={endX} y1={startY} y2={endY} />
+    );
+  }
+
+  return hatchings;
+};
+
+//
+// Striped triangle
+//
+const getStripesForTriangle = ({
+  height,
+  width,
+  totalStripes,
+  isBottomRight = false
+}) => {
+  const hatchings = [];
+  const verticalSpacing = height / totalStripes;
+  const horizontalSpacing = width / totalStripes;
+
+  for (let h = 0; h <= totalStripes; h++) {
+    let startY = h * verticalSpacing;
+    let endY = 0;
+
+    let startX = 0;
+    let endX = h * horizontalSpacing;
+
+    if (isBottomRight) {
+      startY = height;
+      endY = h * verticalSpacing;
+
+      startX = h * horizontalSpacing;
+      endX = width;
+    }
+
+    hatchings.push(
+      <line
+        key={h + "" + startX + "" + startY}
+        x1={startX}
+        x2={endX}
+        y1={startY}
+        y2={endY}
+      />
+    );
+  }
+
+  return hatchings;
 };

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   getErrorTile,
   getTileEight,
@@ -395,7 +396,13 @@ export const GetTestTiles = ({
   return tiles;
 };
 
-export const GetTiles = ({ width, height, tilesPerWidth, lineColour }) => {
+export const GetTiles = ({
+  width,
+  height,
+  tilesPerWidth,
+  lineColour,
+  lineThickness = 2
+}) => {
   const tileWidth = width / tilesPerWidth;
   const tilesPerHeight = tilesPerWidth; //Math.floor(height / tileWidth);
   const tileHeight = height / tilesPerHeight;
@@ -419,8 +426,6 @@ export const GetTiles = ({ width, height, tilesPerWidth, lineColour }) => {
   const stripeSpacing = tileHeight / 10;
   const totalStripes = 10;
   const totalTightStripes = totalStripes * 2;
-  // const lineColour = "#FF0000";
-  const lineThickness = 2;
 
   for (let titleInfo of tileData) {
     if (titleInfo) {
@@ -439,21 +444,77 @@ export const GetTiles = ({ width, height, tilesPerWidth, lineColour }) => {
           options: titleInfo.options
         })
       );
-    } else {
-      tiles.push(
-        tileTypes.t9.func({
-          width: tileWidth,
-          height: tileHeight,
-          x: titleInfo.x,
-          y: titleInfo.y,
-          lineColour,
-          lineThickness,
-          totalStripes,
-          totalTightStripes,
-          stripeSpacing
-        })
-      );
     }
+  }
+
+  return tiles;
+};
+
+export const getTileTypes = ({
+  tileWidth = 350,
+  tileHeight = 350,
+  hatchLooseSpacing = 40,
+  hatchMediumSpacing = 30,
+  hatchTightSpacing = 20,
+  lineColour = "#000",
+  lineThickness = 2
+}) => {
+  const tileKeys = Object.keys(tileTypes);
+  const tiles = [];
+
+  const totalTightHatchLines = tileHeight / hatchTightSpacing;
+  const totalMediumHatchLines = tileHeight / hatchMediumSpacing;
+  const totalLooseHatchLines = tileHeight / hatchLooseSpacing;
+
+  let x = 0;
+  let y = 0;
+  const padding = 50;
+  const fontSize = 120;
+
+  for (let key of tileKeys) {
+    const titleInfo = tileTypes[key];
+
+    tiles.push(
+      titleInfo.func({
+        lineColour,
+        lineThickness,
+        width: tileWidth,
+        height: tileHeight,
+        x: x,
+        y: y,
+        fill: "#fff",
+        totalTightStripes: totalTightHatchLines,
+        totalStripes: totalMediumHatchLines,
+        stripeSpacing: hatchMediumSpacing,
+        options: { top: true, bottom: true, left: true, right: true }
+      })
+    );
+
+    tiles.push(
+      <rect
+        key={"rect" + x + "" + y}
+        x={x}
+        y={y}
+        width={tileWidth}
+        height={tileHeight}
+        fill={"none"}
+        stroke={"#000"}
+        strokeWidth={4}
+      />
+    );
+
+    tiles.push(
+      <text
+        key={"text" + x + "" + y}
+        x={x + tileWidth + padding}
+        y={y + (fontSize + tileHeight) / 2}
+        style={{ font: `bold ${fontSize}px sans-serif` }}
+      >
+        = {titleInfo.name}
+      </text>
+    );
+
+    y += tileHeight + padding;
   }
 
   return tiles;
@@ -461,48 +522,51 @@ export const GetTiles = ({ width, height, tilesPerWidth, lineColour }) => {
 
 const tileTypes = {
   t1: {
+    name: "1",
     allowedOnRight: ["t1", "t8"],
     allowedBelow: ["t1", "t3", "t5", "t8"],
     func: getTileOne
   },
   t2: {
+    name: "2",
     allowedOnRight: [1, 3],
     allowedBelow: [1, 3],
     func: getTileTwo
   },
   t3: {
+    name: "3",
     allowedOnRight: ["t8"],
     allowedBelow: ["t8"],
     func: getTileThree
   },
   t4: {
+    name: "4",
     allowedOnRight: [2, 7],
     allowedBelow: [2, 7],
     func: getTileFour
   },
   t5: {
+    name: "5",
     allowedOnRight: ["t1", "t3", "t5"],
     allowedBelow: ["t1", "t5"],
     func: getTileFive
   },
   t6: {
+    name: "6",
     allowedOnRight: [3, 4, 7, 8],
     allowedBelow: [7],
     func: getTileSix
   },
   t7: {
+    name: "7",
     allowedOnRight: [1, 2, 7],
     allowedBelow: [2, 7],
     func: getTileSeven
   },
   t8: {
+    name: "8",
     allowedOnRight: ["t1", "t3", "t5"],
     allowedBelow: ["t1"],
     func: getTileEight
-  },
-  t9: {
-    allowedOnRight: ["t1"],
-    allowedBelow: ["t1"],
-    func: getErrorTile
   }
 };
