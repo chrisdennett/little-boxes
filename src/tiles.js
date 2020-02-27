@@ -349,25 +349,26 @@ export const getTileOne = ({
   options = { top: false, right: false, bottom: false, left: false }
 }) => {
   return (
-    <g key={`x${x},y${y}`} transform={`translate(${x} ${y})`}>
-      <rect
+    <g
+      key={`x${x},y${y}`}
+      transform={`translate(${x} ${y})`}
+      stroke={lineColour}
+      strokeWidth={lineThickness}
+    >
+      {/* <rect
         x={0}
         y={0}
         width={width}
         height={height}
         stroke={"none"}
         fill={"none"}
-      />
+      /> */}
 
       {/* {options.top && (
         <line x1={0} y1={0} x2={width} y2={0} stroke={lineColour} />
       )}*/}
-      {options.bottom && (
-        <line x1={0} y1={height} x2={width} y2={height} stroke={lineColour} />
-      )}
-      {options.left && (
-        <line x1={0} y1={0} x2={0} y2={height} stroke={lineColour} />
-      )}
+      {options.bottom && <line x1={0} y1={height} x2={width} y2={height} />}
+      {options.left && <line x1={0} y1={0} x2={0} y2={height} />}
       {/* {options.right && (
         <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
       )} */}
