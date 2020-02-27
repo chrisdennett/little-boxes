@@ -33,7 +33,10 @@ export default function App() {
             <Controls onUpdate={setAppData} appData={appData} />
           </Space.LeftResizable>
         )}
-        <Space.Fill trackSize={true}>
+        <Space.Fill
+          trackSize={true}
+          style={{ padding: 40, background: "#fff" }}
+        >
           <Space.Info>
             {sizeInfo => <Display sizeInfo={sizeInfo} appData={appData} />}
           </Space.Info>

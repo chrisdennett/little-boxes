@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { GetTiles, GetTestTiles } from "../utils";
+import { GetTiles } from "../utils";
 
 const width = 2550;
 const height = 3300;
 const tilesPerWidth = 20;
 
-const Display = ({ sizeInfo, appData }) => {
-  const { lineThickness } = appData.settings;
+const Display = ({ appData }) => {
+  // const { lineThickness } = appData.settings;
   const lineColour = "#ff0000";
 
   const tiles = GetTiles({ width, height, tilesPerWidth, lineColour });
-  // const tiles = GetTestTiles({ width, height, tilesPerWidth });
 
   return (
     <Container id="svgHolder">

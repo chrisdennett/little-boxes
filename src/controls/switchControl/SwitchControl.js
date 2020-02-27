@@ -13,7 +13,6 @@ export const SwitchControl = ({
 }) => (
   <StyledSwitch
     className={className}
-    defaultChecked={defaultChecked}
     checked={value}
     onChange={e => onChange(e.currentTarget.checked)}
     label={label}

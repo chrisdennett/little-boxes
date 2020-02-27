@@ -189,7 +189,7 @@ export const addBlackEdgesAndConnectors = tileDataArray => {
     tilesChanged = 0;
 
     for (let tileData of tileDataArray) {
-      const { key, tileAbove, tileBelow, tileToLeft, tileBelowLeft } = tileData;
+      const { key, tileBelow, tileToLeft, tileBelowLeft } = tileData;
 
       const isCurrentlyBg = key === "t7";
 
@@ -201,7 +201,6 @@ export const addBlackEdgesAndConnectors = tileDataArray => {
       const tileBelowIs5 = tileBelow && tileBelow.key === "t5";
       const tileBelowIs4 = tileBelow && tileBelow.key === "t4";
       const tileBelowIs3 = tileBelow && tileBelow.key === "t3";
-      const tileAboveIsWhite = tileAbove && tileAbove.key === "t1";
       const tileBelowIsWhite = tileBelow && tileBelow.key === "t1";
       const tileBelowIsBlack = tileBelow && tileBelow.key === "t6";
       const tileToLeftIsWhite = tileToLeft && tileToLeft.key === "t1";
@@ -305,13 +304,10 @@ export const addBackgroundEdgesAndConnectors = tileDataArray => {
     for (let tileData of tileDataArray) {
       const {
         key,
-        tileAbove,
         tileBelow,
-        tileBelowRight,
         tileToLeft,
         tileToRight,
-        tileBelowLeft,
-        isLastRow
+        tileBelowLeft
       } = tileData;
 
       const isCurrentlyBg = key === "t7";

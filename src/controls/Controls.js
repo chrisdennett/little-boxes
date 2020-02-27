@@ -21,7 +21,6 @@ const Controls = ({ appData, onUpdate }) => {
   const settingsKeys = Object.keys(settings);
 
   const onSaveSvgClick = () => {
-    console.log("save svg please");
     save_as_svg();
     // var full_svg = get_svg_text();
     // var blob = new Blob([full_svg], { type: "image/svg+xml" });
@@ -60,7 +59,7 @@ const Controls = ({ appData, onUpdate }) => {
                 onChange={value => updateSettings(key, value)}
               />
             );
-          }
+          } else return null;
         })}
       </ControlsUI>
     </Container>
