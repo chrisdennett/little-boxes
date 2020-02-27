@@ -2,38 +2,53 @@ import React from "react";
 import styled from "styled-components";
 import { GetTiles, getTileTypes } from "../utils";
 
-const width = 2550;
-const height = 3300;
-const tilesPerWidth = 20;
-
 const Display = ({ appData }) => {
   // const { lineThickness } = appData.settings;
   const lineColour = "#ff0000";
+  const lineThickness = 2;
+  const tileWidth = 250;
+  const tileHeight = 250;
+  const tilesWide = 10;
+  const tilesHigh = 10;
+  const tightLinesPerHeight = 16;
+  const midLinesPerHeight = 8;
+  const looseLinesPerHeight = 3;
 
-  const tiles = GetTiles({ width, height, tilesPerWidth, lineColour });
-  const keyTiles = getTileTypes({});
+  const tiles = GetTiles({
+    tileWidth,
+    tileHeight,
+    tilesWide,
+    tilesHigh,
+    lineColour,
+    lineThickness,
+    tightLinesPerHeight,
+    midLinesPerHeight,
+    looseLinesPerHeight
+  });
 
-  console.log("keyTiles: ", keyTiles);
+  // const keyTiles = getTileTypes({});
+  const svgWidth = tileWidth * tilesWide;
+  const svgHeight = tileHeight * tilesHigh;
 
   return (
     <Container id="svgHolder">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox={`0 0 ${width / 2} ${height}`}
+        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        {keyTiles}
+        {/* {keyTiles} */}
 
-        {/* <rect x={0} y={0} width={width} height={height} fill={"#fff"} />
+        <rect x={0} y={0} width={svgWidth} height={svgHeight} fill={"#fff"} />
         {tiles}
         <rect
           x={0}
           y={0}
-          width={width}
-          height={height}
+          width={svgWidth}
+          height={svgHeight}
           fill={"none"}
           strokeWidth={2}
           stroke={lineColour}
-        /> */}
+        />
       </svg>
     </Container>
   );

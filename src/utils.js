@@ -17,29 +17,29 @@ import {
 export const getRandomFrontFaceData = ({
   tileWidth,
   tileHeight,
-  tilesPerWidth,
-  tilesPerHeight
+  tilesWide,
+  tilesHigh
 }) => {
   const tileDataArray = [];
 
-  for (let tileRow = 0; tileRow < tilesPerHeight; tileRow++) {
-    for (let tileCol = 0; tileCol < tilesPerWidth; tileCol++) {
+  for (let tileRow = 0; tileRow < tilesHigh; tileRow++) {
+    for (let tileCol = 0; tileCol < tilesWide; tileCol++) {
       const nullIndex = -1;
 
       const isFirstRow = tileRow === 0;
       const isFirstCol = tileCol === 0;
-      const isLastRow = tileRow === tilesPerWidth - 1;
-      const isLastCol = tileCol === tilesPerHeight - 1;
+      const isLastRow = tileRow === tilesWide - 1;
+      const isLastCol = tileCol === tilesHigh - 1;
 
-      const index = tileCol + tileRow * tilesPerWidth;
+      const index = tileCol + tileRow * tilesWide;
 
-      const indexAbove = isFirstRow ? nullIndex : index - tilesPerWidth;
+      const indexAbove = isFirstRow ? nullIndex : index - tilesWide;
       const indexAboveLeft =
         isFirstRow || isFirstCol ? nullIndex : indexAbove - 1;
       const indexAboveRight =
         isFirstRow || isLastCol ? nullIndex : indexAbove + 1;
 
-      const indexBelow = isLastRow ? nullIndex : index + tilesPerWidth;
+      const indexBelow = isLastRow ? nullIndex : index + tilesWide;
       const indexBelowLeft =
         isLastRow || isFirstCol ? nullIndex : indexBelow - 1;
       const indexBelowRight =
@@ -361,22 +361,17 @@ export const addBackgroundEdgesAndConnectors = tileDataArray => {
   return tileDataArray;
 };
 
-export const GetTestTiles = ({
-  width,
-  height,
-  tilesPerWidth,
-  tileKey = "t2"
-}) => {
-  const tileWidth = width / tilesPerWidth;
-  const tilesPerHeight = tilesPerWidth;
-  const tileHeight = height / tilesPerHeight;
+export const GetTestTiles = ({ width, height, tilesWide, tileKey = "t2" }) => {
+  const tileWidth = width / tilesWide;
+  const tilesHigh = tilesWide;
+  const tileHeight = height / tilesHigh;
 
   const tiles = [];
   const stripeSpacing = tileHeight / 10;
   const totalStripes = 10;
 
-  for (let tileRow = 0; tileRow < tilesPerHeight; tileRow++) {
-    for (let tileCol = 0; tileCol < tilesPerWidth; tileCol++) {
+  for (let tileRow = 0; tileRow < tilesHigh; tileRow++) {
+    for (let tileCol = 0; tileCol < tilesWide; tileCol++) {
       tiles.push(
         tileTypes[tileKey].func({
           width: tileWidth,
@@ -397,21 +392,25 @@ export const GetTestTiles = ({
 };
 
 export const GetTiles = ({
-  width,
-  height,
-  tilesPerWidth,
+  tileWidth,
+  tileHeight,
+  tilesWide,
+  tilesHigh,
   lineColour,
-  lineThickness = 2
+  lineThickness = 2,
+  tightLinesPerHeight,
+  midLinesPerHeight,
+  looseLinesPerHeight
 }) => {
-  const tileWidth = width / tilesPerWidth;
-  const tilesPerHeight = tilesPerWidth; //Math.floor(height / tileWidth);
-  const tileHeight = height / tilesPerHeight;
+  const hatchLooseSpacing = tileHeight / looseLinesPerHeight;
+  const hatchMediumSpacing = tileHeight / midLinesPerHeight;
+  const hatchTightSpacing = tileHeight / tightLinesPerHeight;
 
   const tileData1 = getRandomFrontFaceData({
     tileWidth,
     tileHeight,
-    tilesPerWidth,
-    tilesPerHeight
+    tilesWide,
+    tilesHigh
   });
 
   const tileData2 = addTileNeighborInfo(tileData1);
@@ -423,6 +422,11 @@ export const GetTiles = ({
   const tileData = addFrontFaceOutlineData(tileData6);
 
   const tiles = [];
+
+  const totalTightHatchLines = tileHeight / hatchTightSpacing;
+  const totalMediumHatchLines = tileHeight / hatchMediumSpacing;
+  const totalLooseHatchLines = tileHeight / hatchLooseSpacing;
+
   const stripeSpacing = tileHeight / 10;
   const totalStripes = 10;
   const totalTightStripes = totalStripes * 2;
@@ -438,9 +442,9 @@ export const GetTiles = ({
           x: titleInfo.x,
           y: titleInfo.y,
           fill: "#fff",
-          totalStripes,
-          totalTightStripes,
-          stripeSpacing,
+          totalTightStripes: totalTightHatchLines,
+          totalStripes: totalMediumHatchLines,
+          stripeSpacing: hatchMediumSpacing,
           options: titleInfo.options
         })
       );

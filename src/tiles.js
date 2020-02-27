@@ -301,9 +301,9 @@ export const getTileOne = ({
       )}*/}
       {options.bottom && <line x1={0} y1={height} x2={width} y2={height} />}
       {options.left && <line x1={0} y1={0} x2={0} y2={height} />}
-      {/* {options.right && (
+      {options.right && (
         <line x1={width} y1={0} x2={width} y2={height} stroke={lineColour} />
-      )} */}
+      )}
     </g>
   );
 };
