@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { GetTiles, getTileTypes } from "../utils";
 
 const Display = ({ appData }) => {
-  const { lineColour, showOuterBox, lineThickness } = appData;
+  const { lineColour, showOuterBox, lineThickness, showKey } = appData;
   const tileWidth = 250;
   const tileHeight = 250;
   const tilesWide = 10;
@@ -24,18 +24,34 @@ const Display = ({ appData }) => {
     looseLinesPerHeight
   });
 
-  // const keyTiles = getTileTypes({});
+  const keyTiles = getTileTypes({
+    tileWidth,
+    tileHeight,
+    lineColour,
+    lineThickness
+  });
   const svgWidth = tileWidth * tilesWide;
   const svgHeight = tileHeight * tilesHigh;
 
   return (
     <Container id="svgHolder">
+      {showKey && (
+        <svg
+          className="keysSVG"
+          xmlns="http://www.w3.org/2000/svg"
+          height={"100%"}
+          width={"100%"}
+          viewBox={`0 0 ${tileWidth * 1.3} ${svgHeight}`}
+        >
+          {keyTiles}
+        </svg>
+      )}
+
       <svg
+        className="mainSVG"
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        {/* {keyTiles} */}
-
         <rect x={0} y={0} width={svgWidth} height={svgHeight} fill={"#fff"} />
         {tiles}
 
@@ -101,9 +117,20 @@ const Container = styled.div`
   background: white;
   width: 100%;
   height: 100%;
+  display: flex;
 
   svg {
     max-width: 100%;
     max-height: 100%;
+  }
+
+  .mainSVG {
+    flex: 3;
+  }
+
+  .keysSVG {
+    flex: 1;
+    max-width: 200px;
+    max-height: 700px;
   }
 `;

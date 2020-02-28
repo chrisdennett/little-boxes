@@ -2,6 +2,12 @@ const defaultAppData = {
   title: "Tiles with Rules",
   infoUrl: "https://artfly.io/binary-hands",
   settings: {
+    showKey: {
+      label: "Show Key",
+      type: "boolean",
+      defaultValue: false
+    },
+
     showOuterBox: {
       label: "Outer Box",
       type: "boolean",
@@ -32,8 +38,6 @@ export const getAppData = (srcData = defaultAppData) => {
   for (let key of settingsKeys) {
     appData[key] = defaultAppData.settings[key].defaultValue;
   }
-
-  console.log("appData: ", appData);
 
   return appData;
 };

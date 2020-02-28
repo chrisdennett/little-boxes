@@ -472,8 +472,8 @@ export const getTileTypes = ({
 
   let x = 0;
   let y = 0;
-  const padding = 50;
-  const fontSize = 120;
+  const padding = 40;
+  const fontSize = 80;
 
   for (let key of tileKeys) {
     const titleInfo = tileTypes[key];
@@ -512,9 +512,9 @@ export const getTileTypes = ({
         key={"text" + x + "" + y}
         x={x + tileWidth + padding}
         y={y + (fontSize + tileHeight) / 2}
-        style={{ font: `bold ${fontSize}px sans-serif` }}
+        style={{ font: `normal ${fontSize}px sans-serif` }}
       >
-        = {titleInfo.name}
+        #{titleInfo.name}
       </text>
     );
 

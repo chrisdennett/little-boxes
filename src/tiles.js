@@ -1,5 +1,4 @@
 import React from "react";
-import { idText } from "typescript";
 
 //
 // EIGHT
