@@ -502,7 +502,7 @@ export const getTileTypes = ({
         width={tileWidth}
         height={tileHeight}
         fill={"none"}
-        stroke={"#000"}
+        stroke={lineColour}
         strokeWidth={4}
       />
     );
@@ -512,7 +512,7 @@ export const getTileTypes = ({
         key={"text" + x + "" + y}
         x={x + tileWidth + padding}
         y={y + (fontSize + tileHeight) / 2}
-        style={{ font: `normal ${fontSize}px sans-serif` }}
+        style={{ font: `normal ${fontSize}px sans-serif`, fill: lineColour }}
       >
         #{titleInfo.name}
       </text>
