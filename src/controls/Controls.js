@@ -6,12 +6,14 @@ import { Button } from "@rmwc/button";
 // comps
 import SliderControl from "./sliderControl/SliderControl";
 import { SwitchControl } from "./switchControl/SwitchControl";
+import ColourPicker from "../components/colourPicker/ColourPicker";
 
 const Controls = ({ appData, onUpdate }) => {
   const { settings } = appData;
 
   const updateSettings = (key, newValue) => {
     const newSetting = { ...settings[key], value: newValue };
+
     onUpdate({
       ...appData,
       settings: { ...settings, [key]: newSetting }
@@ -37,6 +39,17 @@ const Controls = ({ appData, onUpdate }) => {
         {settingsKeys.map(key => {
           const currSetting = settings[key];
 
+          if (currSetting.type === "colour") {
+            return (
+              <ColourPicker
+                key={key}
+                label={currSetting.label}
+                value={currSetting.value}
+                onChange={value => updateSettings(key, value)}
+              />
+            );
+          }
+
           if (currSetting.type === "boolean") {
             return (
               <SwitchControl
@@ -46,7 +59,9 @@ const Controls = ({ appData, onUpdate }) => {
                 onChange={value => updateSettings(key, value)}
               />
             );
-          } else if (currSetting.type === "range") {
+          }
+
+          if (currSetting.type === "range") {
             return (
               <SliderControl
                 key={key}
@@ -59,7 +74,9 @@ const Controls = ({ appData, onUpdate }) => {
                 onChange={value => updateSettings(key, value)}
               />
             );
-          } else return null;
+          }
+
+          return null;
         })}
       </ControlsUI>
     </Container>
@@ -82,7 +99,7 @@ const ControlsUI = styled.div`
 const save_as_svg = () => {
   var full_svg = get_svg_text();
   var blob = new Blob([full_svg], { type: "image/svg+xml" });
-  saveAs(blob, "graph.svg");
+  saveAs(blob, "tiles-with-rules.svg");
 };
 
 const get_svg_text = () => {
