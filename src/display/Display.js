@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { GetTiles, getTileTypes } from "../utils";
 
 const Display = ({ appData }) => {
+  //let mainSVGRef = React.createRef();
+
   const { lineColour, showOuterBox, lineThickness, showKey } = appData;
   const tileWidth = 250;
   const tileHeight = 250;
@@ -37,7 +39,7 @@ const Display = ({ appData }) => {
     <Container id="svgHolder">
       {showKey && (
         <svg
-          className="keysSVG"
+          className="keySVG"
           xmlns="http://www.w3.org/2000/svg"
           height={"100%"}
           width={"100%"}
@@ -128,7 +130,7 @@ const Container = styled.div`
     flex: 3;
   }
 
-  .keysSVG {
+  .keySVG {
     flex: 1;
     max-width: 200px;
     max-height: 700px;

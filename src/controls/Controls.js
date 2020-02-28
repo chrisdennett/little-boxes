@@ -17,19 +17,32 @@ const Controls = ({ appData, onUpdate }) => {
 
   const settingsKeys = Object.keys(settings);
 
-  const onSaveSvgClick = () => {
-    save_as_svg();
-    // var full_svg = get_svg_text();
-    // var blob = new Blob([full_svg], { type: "image/svg+xml" });
-    // saveAs(blob, "graph.svg");
+  const onSaveSvgClick = ({ name = "tiles-art", svgClass = "mainSVG" }) => {
+    let full_svg = document.getElementsByClassName(svgClass)[0].outerHTML;
+    full_svg = full_svg.split(">").join(`>`);
+
+    var blob = new Blob([full_svg], { type: "image/svg+xml" });
+    saveAs(blob, `artfly-${name}.svg`);
   };
 
   return (
     <Container>
       <ControlsUI>
-        <div>
+        <ButtHolder>
           <Button label="Save SVG" raised onClick={onSaveSvgClick} />
-        </div>
+        </ButtHolder>
+
+        {appData.showKey && (
+          <ButtHolder>
+            <Button
+              label="Save KEY SVG"
+              raised
+              onClick={() =>
+                onSaveSvgClick({ name: "tile-art-key", svgClass: "keySVG" })
+              }
+            />
+          </ButtHolder>
+        )}
 
         {settingsKeys.map(key => {
           const currSetting = settings[key];
@@ -92,11 +105,15 @@ const ControlsUI = styled.div`
   margin: 15px;
 `;
 
-const save_as_svg = () => {
-  var full_svg = get_svg_text();
-  var blob = new Blob([full_svg], { type: "image/svg+xml" });
-  saveAs(blob, "tiles-with-rules.svg");
-};
+const ButtHolder = styled.div`
+  margin-bottom: 15px;
+`;
+
+// const save_as_svg = () => {
+//   var full_svg = get_svg_text();
+//   var blob = new Blob([full_svg], { type: "image/svg+xml" });
+//   saveAs(blob, "tiles-with-rules.svg");
+// };
 
 const get_svg_text = () => {
   var svg_data = document.getElementById("svgHolder")
