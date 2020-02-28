@@ -20,6 +20,7 @@ const SliderControl = ({
   showTicks = false,
   min = 0,
   max = 1,
+  valueDecimalPlaces = 1,
   step = 0.001
 }) => {
   const domain = [min, max];
@@ -31,7 +32,8 @@ const SliderControl = ({
 
   // only return array if there are multiple values
   const onSliderUpdate = values => {
-    onChange(values.length > 1 ? values : values[0]);
+    let newValue = values.length > 1 ? values : values[0];
+    onChange(newValue.toFixed(valueDecimalPlaces));
   };
 
   return (

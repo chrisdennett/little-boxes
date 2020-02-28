@@ -35,7 +35,12 @@ export default function App() {
         )}
         <Space.Fill
           trackSize={true}
-          style={{ padding: 40, background: "#fff" }}
+          style={{
+            padding: 40,
+            background: "#fff",
+            borderRadius: 10,
+            border: "5px solid"
+          }}
         >
           <Space.Info>
             {sizeInfo => <Display sizeInfo={sizeInfo} appData={appData} />}
