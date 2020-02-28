@@ -53,7 +53,7 @@ const Controls = ({ appData, onUpdate }) => {
               <ColourPicker
                 key={key}
                 label={currSetting.label}
-                value={currSetting.value}
+                value={currValue}
                 onChange={value => updateSettings(key, value)}
               />
             );
