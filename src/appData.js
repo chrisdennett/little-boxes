@@ -21,7 +21,7 @@ export const defaultAppData = {
       type: "range",
       min: 1,
       max: 10,
-      value: 1.3
+      value: 2.5
     }
   }
 };
