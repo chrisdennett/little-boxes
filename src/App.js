@@ -5,10 +5,10 @@ import * as Space from "react-spaces";
 import TopBar from "./top-bar/TopBar";
 import Display from "./display/Display";
 import Controls from "./controls/Controls";
-import { defaultAppData } from "./appData";
+import { getAppData } from "./appData";
 
 export default function App() {
-  const [appData, setAppData] = useState(defaultAppData);
+  const [appData, setAppData] = useState(getAppData());
   const [optionsVisible, setOptionsVisible] = useState(true);
 
   return (

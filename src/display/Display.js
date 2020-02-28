@@ -3,9 +3,7 @@ import styled from "styled-components";
 import { GetTiles, getTileTypes } from "../utils";
 
 const Display = ({ appData }) => {
-  const { lineColour, showOuterBox, lineThickness } = appData.settings;
-  // const lineColour = "#ff0000";
-  // const lineThickness = 2;
+  const { lineColour, showOuterBox, lineThickness } = appData;
   const tileWidth = 250;
   const tileHeight = 250;
   const tilesWide = 10;
@@ -19,8 +17,8 @@ const Display = ({ appData }) => {
     tileHeight,
     tilesWide,
     tilesHigh,
-    lineColour: lineColour.value,
-    lineThickness: lineThickness.value,
+    lineColour: lineColour,
+    lineThickness: lineThickness,
     tightLinesPerHeight,
     midLinesPerHeight,
     looseLinesPerHeight
@@ -41,15 +39,15 @@ const Display = ({ appData }) => {
         <rect x={0} y={0} width={svgWidth} height={svgHeight} fill={"#fff"} />
         {tiles}
 
-        {showOuterBox.value && (
+        {showOuterBox && (
           <rect
             x={0}
             y={0}
             width={svgWidth}
             height={svgHeight}
             fill={"none"}
-            strokeWidth={lineThickness.value}
-            stroke={lineColour.value}
+            strokeWidth={lineThickness}
+            stroke={lineColour}
           />
         )}
       </svg>

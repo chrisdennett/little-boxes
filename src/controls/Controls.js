@@ -12,12 +12,7 @@ const Controls = ({ appData, onUpdate }) => {
   const { settings } = appData;
 
   const updateSettings = (key, newValue) => {
-    const newSetting = { ...settings[key], value: newValue };
-
-    onUpdate({
-      ...appData,
-      settings: { ...settings, [key]: newSetting }
-    });
+    onUpdate({ ...appData, [key]: newValue });
   };
 
   const settingsKeys = Object.keys(settings);
@@ -38,6 +33,7 @@ const Controls = ({ appData, onUpdate }) => {
 
         {settingsKeys.map(key => {
           const currSetting = settings[key];
+          const currValue = appData[key];
 
           if (currSetting.type === "colour") {
             return (
@@ -55,7 +51,7 @@ const Controls = ({ appData, onUpdate }) => {
               <SwitchControl
                 key={key}
                 label={currSetting.label}
-                value={currSetting.value}
+                value={currValue}
                 onChange={value => updateSettings(key, value)}
               />
             );
@@ -70,7 +66,7 @@ const Controls = ({ appData, onUpdate }) => {
                 displayValue={true}
                 min={currSetting.min}
                 max={currSetting.max}
-                value={currSetting.value}
+                value={currValue}
                 onChange={value => updateSettings(key, value)}
               />
             );

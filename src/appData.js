@@ -1,19 +1,17 @@
-export const defaultAppData = {
+const defaultAppData = {
   title: "Tiles with Rules",
   infoUrl: "https://artfly.io/binary-hands",
   settings: {
-    // fringeFraction: 0.03,
-
     showOuterBox: {
       label: "Outer Box",
       type: "boolean",
-      value: true
+      defaultValue: true
     },
 
     lineColour: {
       label: "Line Colour",
       type: "colour",
-      value: "#FF0000"
+      defaultValue: "#FF0000"
     },
 
     lineThickness: {
@@ -21,7 +19,21 @@ export const defaultAppData = {
       type: "range",
       min: 1,
       max: 10,
-      value: 2.5
+      defaultValue: 2.5
     }
   }
+};
+
+export const getAppData = (srcData = defaultAppData) => {
+  // add easy access values from default data
+  const appData = { ...defaultAppData };
+  const settingsKeys = Object.keys(defaultAppData.settings);
+
+  for (let key of settingsKeys) {
+    appData[key] = defaultAppData.settings[key].defaultValue;
+  }
+
+  console.log("appData: ", appData);
+
+  return appData;
 };
