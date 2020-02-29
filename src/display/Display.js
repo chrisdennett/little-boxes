@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { GetTiles, getTileTypes } from "../utils";
 
 const Display = ({ appData }) => {
-  //let mainSVGRef = React.createRef();
-
   const { lineColour, showOuterBox, lineThickness, showKey } = appData;
   const tileWidth = 250;
   const tileHeight = 250;
@@ -35,40 +33,60 @@ const Display = ({ appData }) => {
   const svgWidth = tileWidth * tilesWide;
   const svgHeight = tileHeight * tilesHigh;
 
+  const margin = 100;
+  const svgWidthAfterMargin = svgWidth - margin * 2;
+  const svgHeightAfterMargin = svgHeight - margin * 2;
+  const svgScaleWidth = svgWidthAfterMargin / svgWidth;
+  const svgScaleHeight = svgHeightAfterMargin / svgHeight;
+
   return (
-    <Container id="svgHolder">
-      {showKey && (
-        <svg
-          className="keySVG"
-          xmlns="http://www.w3.org/2000/svg"
-          height={"100%"}
-          width={"100%"}
-          viewBox={`0 0 ${tileWidth * 1.3} ${svgHeight}`}
-        >
-          {keyTiles}
-        </svg>
-      )}
-
-      <svg
-        className="mainSVG"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      >
-        <rect x={0} y={0} width={svgWidth} height={svgHeight} fill={"#fff"} />
-        {tiles}
-
-        {showOuterBox && (
-          <rect
-            x={0}
-            y={0}
-            width={svgWidth}
-            height={svgHeight}
-            fill={"none"}
-            strokeWidth={lineThickness}
-            stroke={lineColour}
-          />
+    <Container>
+      <SvgHolder id="svgHolder">
+        {showKey && (
+          <TilesSVG
+            className="keySVG"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox={`0 0 ${tileWidth * 1.3} ${svgHeight}`}
+          >
+            <g
+              transform={`translate(${0} ${margin}) scale(${svgScaleWidth} ${svgScaleHeight})`}
+            >
+              {keyTiles}
+            </g>
+          </TilesSVG>
         )}
-      </svg>
+
+        <MainSVG
+          className="mainSVG"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        >
+          <g
+            transform={`translate(${margin} ${margin}) scale(${svgScaleWidth} ${svgScaleHeight})`}
+          >
+            <rect
+              x={0}
+              y={0}
+              width={svgWidth}
+              height={svgHeight}
+              fill={"#fff"}
+            />
+            {tiles}
+
+            {showOuterBox && (
+              <rect
+                x={0}
+                y={0}
+                width={svgWidth}
+                height={svgHeight}
+                fill={"none"}
+                strokeWidth={lineThickness}
+                stroke={lineColour}
+              />
+            )}
+          </g>
+        </MainSVG>
+      </SvgHolder>
     </Container>
   );
 };
@@ -116,23 +134,36 @@ export const CMYKtoRGB = (C, M, Y, K) => {
 
 // STYLES
 const Container = styled.div`
-  background: white;
+  /* padding: 40px; */
+  background: #fff;
+  border-radius: 10px;
+  /* border: 50px solid #000; */
+  background-image: url(./img/cutting-mat-tile.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
+`;
+
+const SvgHolder = styled.div`
+  width: 95%;
+  height: 95%;
   display: flex;
+`;
 
-  svg {
-    max-width: 100%;
-    max-height: 100%;
-  }
+const MainSVG = styled.svg`
+  background: white;
+  border-radius: 5px;
+  flex: 1;
+`;
 
-  .mainSVG {
-    flex: 3;
-  }
-
-  .keySVG {
-    flex: 1;
-    max-width: 200px;
-    max-height: 700px;
-  }
+const TilesSVG = styled.svg`
+  margin-right: 10px;
+  background: white;
+  border-radius: 5px;
+  flex: 1;
+  flex: 1;
+  max-width: 200px;
+  max-height: 700px;
 `;

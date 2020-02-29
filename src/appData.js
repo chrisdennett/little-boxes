@@ -5,7 +5,7 @@ const defaultAppData = {
     showKey: {
       label: "Show Key",
       type: "boolean",
-      defaultValue: false
+      defaultValue: true
     },
 
     showOuterBox: {

@@ -49,17 +49,11 @@ export default function App() {
 
         {/* MAIN CONTENT */}
         <Space.Fill
-          trackSize={true}
           style={{
-            padding: 40,
-            background: "#fff",
-            borderRadius: 10,
             border: "5px solid"
           }}
         >
-          <Space.Info>
-            {sizeInfo => <Display sizeInfo={sizeInfo} appData={appData} />}
-          </Space.Info>
+          <Display appData={appData} />
         </Space.Fill>
       </Space.Fill>
     </Space.ViewPort>
