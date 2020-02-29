@@ -16,7 +16,7 @@ export default function App() {
   const showMenuOnLeft = width > 700;
 
   return (
-    <Space.ViewPort>
+    <Space.ViewPort right={10} bottom={10}>
       {/* TOP BAR - uses size info to hide things */}
       <Space.Top size={60}>
         <Space.Info>
@@ -50,7 +50,9 @@ export default function App() {
         {/* MAIN CONTENT */}
         <Space.Fill
           style={{
-            border: "5px solid"
+            borderBottom: "3px solid rgba(0, 0, 0, 0.3)",
+            borderRight: "3px solid rgba(0, 0, 0, 0.3)",
+            borderRadius: 10
           }}
         >
           <Display appData={appData} />

@@ -60,7 +60,7 @@ const HelpInfoLink = styled(ExternalLink)`
 `;
 
 const Container = styled.div`
-  background: black;
+  background: none;
   color: white;
   display: flex;
   align-items: center;

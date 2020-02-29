@@ -97,7 +97,6 @@ export default Controls;
 // STYLES
 const Container = styled.div`
   padding-top: 5px;
-  background: black;
   color: white;
 `;
 

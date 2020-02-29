@@ -134,16 +134,16 @@ export const CMYKtoRGB = (C, M, Y, K) => {
 
 // STYLES
 const Container = styled.div`
-  /* padding: 40px; */
   background: #fff;
   border-radius: 10px;
-  /* border: 50px solid #000; */
   background-image: url(./img/cutting-mat-tile.png);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
+  /* border-bottom: 2px solid rgba(0, 0, 0, 1); */
+  /* box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.7); */
 `;
 
 const SvgHolder = styled.div`
@@ -156,6 +156,7 @@ const MainSVG = styled.svg`
   background: white;
   border-radius: 5px;
   flex: 1;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
 `;
 
 const TilesSVG = styled.svg`
@@ -166,4 +167,5 @@ const TilesSVG = styled.svg`
   flex: 1;
   max-width: 200px;
   max-height: 700px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
 `;
