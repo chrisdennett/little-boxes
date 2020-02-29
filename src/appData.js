@@ -1,6 +1,6 @@
 const defaultAppData = {
   title: "Tiles with Rules",
-  infoUrl: "https://artfly.io/binary-hands",
+  infoUrl: "https://artfly.io/little-boxes/",
   settings: {
     showKey: {
       label: "Show Key",
@@ -35,7 +35,7 @@ const defaultAppData = {
       max: 50,
       step: 1,
       discrete: true,
-      defaultValue: 25
+      defaultValue: 10
     },
 
     tilesHigh: {
@@ -44,7 +44,7 @@ const defaultAppData = {
       min: 1,
       max: 50,
       step: 1,
-      defaultValue: 25
+      defaultValue: 10
     }
   }
 };
