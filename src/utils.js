@@ -427,10 +427,6 @@ export const GetTiles = ({
   const totalMediumHatchLines = tileHeight / hatchMediumSpacing;
   const totalLooseHatchLines = tileHeight / hatchLooseSpacing;
 
-  const stripeSpacing = tileHeight / 10;
-  const totalStripes = 10;
-  const totalTightStripes = totalStripes * 2;
-
   for (let titleInfo of tileData) {
     if (titleInfo) {
       tiles.push(
@@ -457,14 +453,18 @@ export const GetTiles = ({
 export const getTileTypes = ({
   tileWidth = 350,
   tileHeight = 350,
-  hatchLooseSpacing = 40,
-  hatchMediumSpacing = 30,
-  hatchTightSpacing = 20,
   lineColour = "#000",
-  lineThickness = 2
+  lineThickness = 2,
+  tightLinesPerHeight,
+  midLinesPerHeight,
+  looseLinesPerHeight
 }) => {
   const tileKeys = Object.keys(tileTypes);
   const tiles = [];
+
+  const hatchLooseSpacing = tileHeight / looseLinesPerHeight;
+  const hatchMediumSpacing = tileHeight / midLinesPerHeight;
+  const hatchTightSpacing = tileHeight / tightLinesPerHeight;
 
   const totalTightHatchLines = tileHeight / hatchTightSpacing;
   const totalMediumHatchLines = tileHeight / hatchMediumSpacing;

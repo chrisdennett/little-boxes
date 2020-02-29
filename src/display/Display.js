@@ -32,8 +32,11 @@ const Display = ({ appData }) => {
   const keyTiles = getTileTypes({
     tileWidth,
     tileHeight,
-    lineColour,
-    lineThickness
+    lineColour: lineColour,
+    lineThickness: lineThickness,
+    tightLinesPerHeight,
+    midLinesPerHeight,
+    looseLinesPerHeight
   });
   const svgWidth = tileWidth * tilesWide;
   const svgHeight = tileHeight * tilesHigh;
