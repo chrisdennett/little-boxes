@@ -48,7 +48,6 @@ const HelpInfoLink = styled(ExternalLink)`
   font-weight: bold;
   border-radius: 5px;
   text-decoration: none;
-  margin-right: 5px;
 
   svg {
     fill: white;
@@ -80,8 +79,6 @@ const StyledButton = styled.button`
   background: rgba(0, 0, 0, 0);
   color: white;
   font-weight: bold;
-  margin-right: 15px;
   cursor: pointer;
   user-select: none;
-  margin-left: 10px;
 `;

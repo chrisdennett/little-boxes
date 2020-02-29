@@ -16,7 +16,7 @@ export default function App() {
   const showMenuOnLeft = width > 700;
 
   return (
-    <Space.ViewPort right={10} bottom={10}>
+    <Space.ViewPort right={10} bottom={10} left={10}>
       {/* TOP BAR - uses size info to hide things */}
       <Space.Top size={60}>
         <Space.Info>
