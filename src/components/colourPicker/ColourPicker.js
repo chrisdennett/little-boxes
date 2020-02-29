@@ -27,7 +27,12 @@ const ColourPicker = ({ value = "#FF0000", onChange, label = value }) => {
         />
       </StyledLabel>
 
-      {label && <LabelText>{label}</LabelText>}
+      {label && (
+        <LabelTextGroup>
+          <LabelText>{label}</LabelText>
+          <LabelValue>{value}</LabelValue>
+        </LabelTextGroup>
+      )}
     </Container>
   );
 };
@@ -50,9 +55,18 @@ const StyledLabel = styled.label`
   border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-const LabelText = styled.p`
+const LabelTextGroup = styled.p`
   margin-left: 10px;
+  display: flex;
+  flex-direction: column;
 `;
+
+const LabelText = styled.span`
+  font-size: 14px;
+  opacity: 0.5;
+`;
+
+const LabelValue = styled.span``;
 
 const StyledInput = styled.input`
   position: absolute;

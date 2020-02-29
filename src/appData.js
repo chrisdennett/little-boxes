@@ -17,7 +17,7 @@ const defaultAppData = {
     lineColour: {
       label: "Line Colour",
       type: "colour",
-      defaultValue: "#FF0000"
+      defaultValue: "#4db39e"
     },
 
     lineThickness: {
