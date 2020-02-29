@@ -8,6 +8,33 @@ const defaultAppData = {
       defaultValue: true
     },
 
+    stripesPerBox1: {
+      label: "Diagonal stripes 1",
+      type: "range",
+      min: 4,
+      max: 32,
+      step: 2,
+      defaultValue: 4
+    },
+
+    stripesPerBox3: {
+      label: "Diagonal stripes 2",
+      type: "range",
+      min: 4,
+      max: 32,
+      step: 2,
+      defaultValue: 12
+    },
+
+    stripesPerBox2: {
+      label: "Horizontal Stripes",
+      type: "range",
+      min: 3,
+      max: 32,
+      step: 1,
+      defaultValue: 8
+    },
+
     showOuterBox: {
       label: "Outer Box",
       type: "boolean",
@@ -34,7 +61,6 @@ const defaultAppData = {
       min: 1,
       max: 50,
       step: 1,
-      discrete: true,
       defaultValue: 10
     },
 

@@ -9,13 +9,16 @@ const Display = ({ appData }) => {
     lineThickness,
     showKey,
     tilesWide,
-    tilesHigh
+    tilesHigh,
+    stripesPerBox1,
+    stripesPerBox2,
+    stripesPerBox3
   } = appData;
   const tileWidth = 250;
   const tileHeight = 250;
-  const tightLinesPerHeight = 16;
-  const midLinesPerHeight = 8;
-  const looseLinesPerHeight = 3;
+  const tightLinesPerHeight = stripesPerBox3;
+  const midLinesPerHeight = stripesPerBox2;
+  const looseLinesPerHeight = stripesPerBox1;
 
   const tiles = GetTiles({
     tileWidth,

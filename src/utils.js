@@ -438,8 +438,10 @@ export const GetTiles = ({
           x: titleInfo.x,
           y: titleInfo.y,
           fill: "#fff",
-          totalTightStripes: totalTightHatchLines,
-          totalStripes: totalMediumHatchLines,
+          totalTightStripes: totalTightHatchLines / 2,
+          totalMediumHatchLines: totalMediumHatchLines,
+          totalLooseHatchLines: totalLooseHatchLines / 2,
+          // totalStripes: totalMediumHatchLines,
           stripeSpacing: hatchMediumSpacing,
           options: titleInfo.options
         })
@@ -487,8 +489,9 @@ export const getTileTypes = ({
         x: x,
         y: y,
         fill: "#fff",
-        totalTightStripes: totalTightHatchLines,
-        totalStripes: totalMediumHatchLines,
+        totalTightStripes: totalTightHatchLines / 2,
+        totalMediumHatchLines: totalMediumHatchLines,
+        totalLooseHatchLines: totalLooseHatchLines / 2,
         stripeSpacing: hatchMediumSpacing,
         options: { top: true, bottom: true, left: true, right: true }
       })
