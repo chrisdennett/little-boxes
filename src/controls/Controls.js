@@ -80,6 +80,8 @@ const Controls = ({ appData, onUpdate, wrap = false }) => {
                 min={currSetting.min}
                 max={currSetting.max}
                 value={currValue}
+                step={1}
+                valueDecimalPlaces={0}
                 onChange={value => updateSettings(key, value)}
               />
             );

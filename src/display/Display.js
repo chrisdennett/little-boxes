@@ -3,11 +3,16 @@ import styled from "styled-components";
 import { GetTiles, getTileTypes } from "../utils";
 
 const Display = ({ appData }) => {
-  const { lineColour, showOuterBox, lineThickness, showKey } = appData;
+  const {
+    lineColour,
+    showOuterBox,
+    lineThickness,
+    showKey,
+    tilesWide,
+    tilesHigh
+  } = appData;
   const tileWidth = 250;
   const tileHeight = 250;
-  const tilesWide = 10;
-  const tilesHigh = 10;
   const tightLinesPerHeight = 16;
   const midLinesPerHeight = 8;
   const looseLinesPerHeight = 3;
@@ -46,13 +51,9 @@ const Display = ({ appData }) => {
           <TilesSVG
             className="keySVG"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox={`0 0 ${tileWidth * 1.3} ${svgHeight}`}
+            viewBox={`0 0 ${tileWidth * 1.3} ${tileHeight * 10}`}
           >
-            <g
-              transform={`translate(${0} ${margin}) scale(${svgScaleWidth} ${svgScaleHeight})`}
-            >
-              {keyTiles}
-            </g>
+            {keyTiles}
           </TilesSVG>
         )}
 
@@ -160,6 +161,7 @@ const MainSVG = styled.svg`
 `;
 
 const TilesSVG = styled.svg`
+  padding-top: 40px;
   margin-right: 10px;
   background: white;
   border-radius: 5px;

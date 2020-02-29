@@ -34,7 +34,10 @@ const SliderControl = ({
   // only return array if there are multiple values
   const onSliderUpdate = values => {
     let newValue = values.length > 1 ? values : values[0];
-    onChange(newValue.toFixed(valueDecimalPlaces));
+    // const hasDecimal = newValue % 1;
+    onChange(
+      valueDecimalPlaces == 0 ? newValue : newValue.toFixed(valueDecimalPlaces)
+    );
   };
 
   return (

@@ -26,6 +26,25 @@ const defaultAppData = {
       min: 1,
       max: 10,
       defaultValue: 2.5
+    },
+
+    tilesWide: {
+      label: "Tiles Wide",
+      type: "range",
+      min: 1,
+      max: 50,
+      step: 1,
+      discrete: true,
+      defaultValue: 25
+    },
+
+    tilesHigh: {
+      label: "Tiles High",
+      type: "range",
+      min: 1,
+      max: 50,
+      step: 1,
+      defaultValue: 25
     }
   }
 };
