@@ -17,6 +17,7 @@ const SliderControl = ({
   values,
   onChange,
   disabled,
+  maxWidth = 200,
   showTicks = false,
   min = 0,
   max = 1,
@@ -37,7 +38,7 @@ const SliderControl = ({
   };
 
   return (
-    <div style={{ height: 50, width: "100%" }}>
+    <div style={{ height: 50, width: "100%", maxWidth: maxWidth }}>
       <SliderLabel disabled={disabled}>
         {label} {displayValue && values}
       </SliderLabel>

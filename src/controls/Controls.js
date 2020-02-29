@@ -8,7 +8,7 @@ import SliderControl from "./sliderControl/SliderControl";
 import { SwitchControl } from "./switchControl/SwitchControl";
 import ColourPicker from "../components/colourPicker/ColourPicker";
 
-const Controls = ({ appData, onUpdate }) => {
+const Controls = ({ appData, onUpdate, wrap = false }) => {
   const { settings } = appData;
 
   const updateSettings = (key, newValue) => {
@@ -27,7 +27,7 @@ const Controls = ({ appData, onUpdate }) => {
 
   return (
     <Container>
-      <ControlsUI>
+      <ControlsUI wrap={wrap}>
         <ButtHolder>
           <Button label="Save SVG" raised onClick={onSaveSvgClick} />
         </ButtHolder>
@@ -103,25 +103,12 @@ const Container = styled.div`
 
 const ControlsUI = styled.div`
   margin: 15px;
+  display: ${props => (props.wrap ? "flex" : "")};
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 const ButtHolder = styled.div`
-  margin-bottom: 15px;
+  margin: 5px;
 `;
-
-// const save_as_svg = () => {
-//   var full_svg = get_svg_text();
-//   var blob = new Blob([full_svg], { type: "image/svg+xml" });
-//   saveAs(blob, "tiles-with-rules.svg");
-// };
-
-const get_svg_text = () => {
-  var svg_data = document.getElementById("svgHolder")
-    ? document.getElementById("svgHolder").innerHTML
-    : "waiting"; //put id of your svg element here
-
-  svg_data = svg_data.split(">").join(`>
-  `);
-
-  return svg_data;
-};
