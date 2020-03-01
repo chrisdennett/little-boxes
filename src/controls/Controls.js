@@ -27,7 +27,7 @@ const Controls = ({ appData, onUpdate, wrap = false }) => {
 
   return (
     <Container>
-      <ControlsUI wrap={wrap}>
+      <ControlsUI wrapControls={wrap}>
         <ButtHolder>
           <Button label="Save SVG" raised onClick={onSaveSvgClick} />
         </ButtHolder>
@@ -103,7 +103,7 @@ const Container = styled.div`
 
 const ControlsUI = styled.div`
   margin: 15px;
-  display: ${props => (props.wrap ? "flex" : "")};
+  display: ${props => (props.wrapControls ? "flex" : "")};
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;

@@ -41,7 +41,7 @@ const SliderControl = ({
   return (
     <div style={{ height: 50, width: "100%", maxWidth: maxWidth }}>
       <SliderLabel disabled={disabled}>
-        {label} {displayValue && values}
+        {label}: <span>{displayValue && values}</span>
       </SliderLabel>
       <Slider
         disabled={disabled}
@@ -109,4 +109,8 @@ const SliderLabel = styled.div`
   font-size: 12px;
   min-height: 30px;
   color: rgba(255, 255, 255, 0.5);
+
+  span {
+    color: white;
+  }
 `;

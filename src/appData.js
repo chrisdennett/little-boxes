@@ -9,30 +9,30 @@ const defaultAppData = {
     },
 
     stripesPerBox1: {
-      label: "Diagonal stripes 1",
+      label: "BG Diagonal sections",
       type: "range",
       min: 4,
-      max: 32,
+      max: 42,
       step: 2,
       defaultValue: 4
     },
 
-    stripesPerBox3: {
-      label: "Diagonal stripes 2",
-      type: "range",
-      min: 4,
-      max: 32,
-      step: 2,
-      defaultValue: 12
-    },
-
     stripesPerBox2: {
-      label: "Horizontal Stripes",
+      label: "Horizontal sections",
       type: "range",
       min: 3,
-      max: 32,
+      max: 42,
       step: 1,
-      defaultValue: 8
+      defaultValue: 14
+    },
+
+    stripesPerBox3: {
+      label: "Side Diagonal sections",
+      type: "range",
+      min: 4,
+      max: 42,
+      step: 2,
+      defaultValue: 36
     },
 
     showOuterBox: {

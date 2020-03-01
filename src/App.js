@@ -13,7 +13,8 @@ export default function App() {
   const [optionsVisible, setOptionsVisible] = useState(true);
   const { width } = useWindowDimensions();
 
-  const showMenuOnLeft = width > 700;
+  const showMenuOnLeft = width > 700 && optionsVisible;
+  const showMenuAtBottom = !showMenuOnLeft && optionsVisible;
 
   return (
     <Space.ViewPort right={10} bottom={10} left={10}>
@@ -35,15 +36,23 @@ export default function App() {
       {/* HOLDER for menu and main panel */}
       <Space.Fill>
         {/* MENU */}
-        {optionsVisible && showMenuOnLeft && (
+        {showMenuOnLeft && (
           <Space.LeftResizable size={200} scrollable={true}>
-            <Controls onUpdate={setAppData} appData={appData} wrap={false} />
+            <Controls
+              onUpdate={setAppData}
+              appData={appData}
+              wrap={showMenuAtBottom}
+            />
           </Space.LeftResizable>
         )}
 
-        {optionsVisible && !showMenuOnLeft && (
+        {showMenuAtBottom && (
           <Space.BottomResizable size={"40%"} scrollable={true}>
-            <Controls onUpdate={setAppData} appData={appData} wrap={true} />
+            <Controls
+              onUpdate={setAppData}
+              appData={appData}
+              wrap={showMenuAtBottom}
+            />
           </Space.BottomResizable>
         )}
 
