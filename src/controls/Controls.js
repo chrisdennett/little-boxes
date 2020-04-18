@@ -44,9 +44,17 @@ const Controls = ({ appData, onUpdate, wrap = false }) => {
           </ButtHolder>
         )}
 
-        {settingsKeys.map(key => {
+        {settingsKeys.map((key) => {
           const currSetting = settings[key];
           const currValue = appData[key];
+
+          if (currSetting.type === "sectionHeader") {
+            return (
+              <StyledSectionHeader key={key}>
+                {currSetting.label}
+              </StyledSectionHeader>
+            );
+          }
 
           if (currSetting.type === "colour") {
             return (
@@ -54,7 +62,7 @@ const Controls = ({ appData, onUpdate, wrap = false }) => {
                 key={key}
                 label={currSetting.label}
                 value={currValue}
-                onChange={value => updateSettings(key, value)}
+                onChange={(value) => updateSettings(key, value)}
               />
             );
           }
@@ -65,7 +73,7 @@ const Controls = ({ appData, onUpdate, wrap = false }) => {
                 key={key}
                 label={currSetting.label}
                 value={currValue}
-                onChange={value => updateSettings(key, value)}
+                onChange={(value) => updateSettings(key, value)}
               />
             );
           }
@@ -81,7 +89,7 @@ const Controls = ({ appData, onUpdate, wrap = false }) => {
                 max={currSetting.max}
                 value={currValue}
                 step={currSetting.step}
-                onChange={value => updateSettings(key, value)}
+                onChange={(value) => updateSettings(key, value)}
               />
             );
           }
@@ -103,7 +111,7 @@ const Container = styled.div`
 
 const ControlsUI = styled.div`
   margin: 15px;
-  display: ${props => (props.wrapControls ? "flex" : "")};
+  display: ${(props) => (props.wrapControls ? "flex" : "")};
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
@@ -111,4 +119,12 @@ const ControlsUI = styled.div`
 
 const ButtHolder = styled.div`
   margin: 5px;
+`;
+
+const StyledSectionHeader = styled.h2`
+  font-size: 16px;
+  margin-top: 20px;
+  border-top: white 1px solid;
+  padding-top: 20px;
+  padding-bottom: 10px;
 `;

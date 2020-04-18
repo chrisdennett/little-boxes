@@ -5,14 +5,14 @@ import { GetTiles, getTileTypes } from "../utils";
 const Display = ({ appData }) => {
   const {
     lineColour,
-    showOuterBox,
+    showOuterBox = true,
     lineThickness,
     showKey,
     tilesWide,
     tilesHigh,
     stripesPerBox1,
     stripesPerBox2,
-    stripesPerBox3
+    stripesPerBox3,
   } = appData;
   const tileWidth = 250;
   const tileHeight = 250;
@@ -29,7 +29,7 @@ const Display = ({ appData }) => {
     lineThickness: lineThickness,
     tightLinesPerHeight,
     midLinesPerHeight,
-    looseLinesPerHeight
+    looseLinesPerHeight,
   });
 
   const keyTiles = getTileTypes({
@@ -39,7 +39,7 @@ const Display = ({ appData }) => {
     lineThickness: lineThickness,
     tightLinesPerHeight,
     midLinesPerHeight,
-    looseLinesPerHeight
+    looseLinesPerHeight,
   });
   const svgWidth = tileWidth * tilesWide;
   const svgHeight = tileHeight * tilesHigh;
