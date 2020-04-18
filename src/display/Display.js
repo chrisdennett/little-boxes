@@ -78,7 +78,10 @@ const Display = ({ appData }) => {
               height={svgHeight}
               fill={"#fff"}
             />
-            {tiles}
+
+            {tiles.map((t, index) => (
+              <g key={index}>{t}</g>
+            ))}
 
             {showOuterBox && (
               <rect
